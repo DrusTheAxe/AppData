@@ -1,0 +1,7 @@
+2. Support wildcards in package family name
+    a. wildcard or regex?
+    b. if 2+ match? fail or process each?
+3. GET --find:data=data
+4. EXPORT --settings:format=YAML
+5. FILE dir-of-files
+6. EXPORT --target:format=FILESYSTEM should NOT preserve ACLs
