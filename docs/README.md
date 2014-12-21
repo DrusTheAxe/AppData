@@ -16,7 +16,7 @@ APPDATA.EXE requires ApplicationData APIs, new in Windows 8 and Windows Server 2
 
 It's implemented in [.NET Framework 4.5](http://msdn.microsoft.com/en-us/library/w0x726c2.aspx).
 
-The executable is a self-contained application. Unzip and go :-)
+The executable is a self-contained application. All you need is APPDATA.EXE. Build and go :-) Precompiled binaries are available at the [APPDATA.EXE home](http://appdata.kapustein.com)
 
 
 UPDATES
