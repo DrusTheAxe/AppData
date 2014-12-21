@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>appdata</id>
+    <title>AppData</title>
+    <version>0.9.3</version>
+    <authors>Howard Kapustein</authors>
+    <owners>Howard Kapustein</owners>
+    <summary>Command line application to access and manipulate ApplicationData</summary>
+    <description>APPDATA.EXE is a Windows command line application to access and manipulate [ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587), new in Windows 8. This is particularly useful if you develop applications, manage applications, or are just plain curious about what an application is storing on your behalf.
+
+Run with no parameters for help.
+
+This was inspired by practical needs over several long nights and weekends working on some Windows store apps. The 'spiritual' inspiration for the technical approach is [REG.EXE](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/reg.mspx?mfr=true). Consider APPDATA.EXE is to ApplicationData as REG.EXE is to the Registry.</description>
+    <projectUrl>http://appdata.kapustein.com</projectUrl>
+    <tags>admin ApplicationData appdata dev</tags>
+    <copyright>Copyright (C) Howard Kapustein</copyright>
+    <licenseUrl>__REPLACE__</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--<iconUrl>https://raw.github.com/__CHOCO_PKG_OWNER_REPO__/master/__NAME__/__NAME__.png</iconUrl>-->
+    <!--<dependencies>
+      <dependency id="" version="" />
+    </dependencies>-->
+    <releaseNotes></releaseNotes>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
