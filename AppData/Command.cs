@@ -93,6 +93,8 @@ namespace AppData
                 command = new CommandSet(options);
             else if (commandName.Equals("signaldatachanged", StringComparison.InvariantCultureIgnoreCase))
                 command = new CommandSignalDataChanged(options);
+            else if (commandName.Equals("size", StringComparison.InvariantCultureIgnoreCase))
+                command = new CommandSize(options);
             else if (commandName.Equals("version", StringComparison.InvariantCultureIgnoreCase))
                 command = new CommandVersion(options);
             else
@@ -137,7 +139,7 @@ namespace AppData
 @"USAGE: AppData <command> <packagefamilyname> [options...]
 Commands:
   CLEAR | GET | SET | DELETE | IMPORT | EXPORT |
-  PATH | QUOTA | SIGNALDATACHANGED | VERSION
+  PATH | QUOTA | SIGNALDATACHANGED | SIZE | VERSION
 
 Return Code:
   0 = Successful
@@ -156,6 +158,7 @@ Examples:
   AppData PATH --help
   AppData QUOTA --help
   AppData SIGNALDATACHANGED --help
+  AppData SIZE --help
   AppData VERSION --help
 ";
 #pragma warning restore
