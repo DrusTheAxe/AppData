@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Windows.Foundation;
 using Windows.Storage;
 
 namespace AppData

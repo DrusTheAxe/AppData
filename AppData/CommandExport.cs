@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using Windows.Foundation;
-using System.Collections.Generic;
-using Windows.Foundation.Collections;
-using Windows.Storage;
 using System.Linq;
 using TrollCaveEnterprises;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace AppData
 {
@@ -35,6 +34,7 @@ Locality options:
   --local           = Local application data stores (files and settings)
   --local:files     = Local application data files
   --local:settings  = Local application data settings
+  --localcache:files= LocalCache application data files
   --roaming         = Roaming application data store (files and settings)
   --roaming:files   = Roaming application data files
   --roaming:settings= Roaming application data settings
@@ -43,7 +43,8 @@ Any combination is supported, e.g. ""--local:settings --roaming:settings"" to ex
 
 ZIP options (if --target:format=ZIP):
   -0, --compress:none  = Use no compression
-  -1, --compress:fast  = Use fastest compression [Default]
+  -1, --compress:fast  = Use fastest compression
+  -5, --compress:normal= Use normal compression [Default]
   -9, --compress:small = Use optimal compression
   --direntries         = Add directory entries [Default]
   --nodirentries       = Do not add directory entries
@@ -86,7 +87,9 @@ EXAMPLES:
             RoamingSettings = 0x0020,
             Roaming = RoamingFiles | RoamingSettings,
             Temporary = 0x0100,
-            All = Local | Roaming | Temporary
+            LocalCacheFiles = 0x1000,
+            LocalCache = LocalCacheFiles,
+            All = Local | Roaming | Temporary | LocalCacheFiles
         };
         int locality = (int)Locality.All;
 
@@ -96,7 +99,7 @@ EXAMPLES:
         }
         Order order = Order.None;
 
-        CompressionLevel compressionLevel = CompressionLevel.Fastest;
+        CompressionLevel compressionLevel = CompressionLevel.Optimal;
         bool zipDirectoryEntries = true;
 
         public CommandExport(string[] options)
@@ -158,9 +161,13 @@ EXAMPLES:
             {
                 this.compressionLevel = CompressionLevel.Fastest;
             }
-            else if (arg.Equals("-9", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--compress:small", StringComparison.InvariantCultureIgnoreCase))
+            else if (arg.Equals("-5", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--compress:normal", StringComparison.InvariantCultureIgnoreCase))
             {
                 this.compressionLevel = CompressionLevel.Optimal;
+            }
+            else if (arg.Equals("-9", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--compress:small", StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.compressionLevel = CompressionLevel.SmallestSize;
             }
             else if (arg.Equals("--direntries", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -177,11 +184,13 @@ EXAMPLES:
         private static readonly string[] LocalityArgs = new string[] { "--all",
             "--local", "--local:files", "--local:settings",
             "--roaming", "--roaming:files", "--roaming:settings",
-            "--temporary" };
+            "--temporary",
+            "--localcache:files" };
         private static readonly Locality[] LocalityValues = new Locality[]{ Locality.All,
             Locality.Local, Locality.LocalFiles, Locality.LocalSettings,
             Locality.Roaming, Locality.RoamingFiles, Locality.RoamingSettings,
-            Locality.Temporary };
+            Locality.Temporary,
+            Locality.LocalCacheFiles };
 
         private bool TryParseLocality(string arg)
         {
@@ -259,6 +268,8 @@ EXAMPLES:
                 PrintLineVerboseFormat("Creating {0}", this.target);
                 if ((this.locality & (int)Locality.LocalFiles) != 0)
                     FileSystemAddFolder(targetRoot, Locality.LocalFiles, appdata.LocalFolder.Path);
+                if ((this.locality & (int)Locality.LocalCacheFiles) != 0)
+                    FileSystemAddFolder(targetRoot, Locality.LocalCacheFiles, appdata.LocalCacheFolder.Path);
                 if ((this.locality & (int)Locality.RoamingFiles) != 0)
                     FileSystemAddFolder(targetRoot, Locality.RoamingFiles, appdata.RoamingFolder.Path);
                 if ((this.locality & (int)Locality.Temporary) != 0)
@@ -298,6 +309,8 @@ EXAMPLES:
                     {
                         if ((this.locality & (int)Locality.LocalFiles) != 0)
                             ZipAddFolder(zip, Locality.LocalFiles, appdata.LocalFolder.Path);
+                        if ((this.locality & (int)Locality.LocalCacheFiles) != 0)
+                            ZipAddFolder(zip, Locality.LocalCacheFiles, appdata.LocalCacheFolder.Path);
                         if ((this.locality & (int)Locality.RoamingFiles) != 0)
                             ZipAddFolder(zip, Locality.RoamingFiles, appdata.RoamingFolder.Path);
                         if ((this.locality & (int)Locality.Temporary) != 0)
@@ -569,6 +582,8 @@ EXAMPLES:
                     return ApplicationDataLocality.Roaming;
                 case Locality.Temporary:
                     return ApplicationDataLocality.Temporary;
+                case Locality.LocalCacheFiles:
+                    return ApplicationDataLocality.LocalCache;
                 default:
                     System.Diagnostics.Debug.Fail("This can never happen: Locality cannot be converted");
                     throw new Exception("This can never happen: Locality cannot be converted");

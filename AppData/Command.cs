@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AppData
 {
@@ -84,7 +81,10 @@ namespace AppData
             else if (commandName.Equals("get", StringComparison.InvariantCultureIgnoreCase))
                 command = new CommandGet(options);
             else if (commandName.Equals("import", StringComparison.InvariantCultureIgnoreCase))
-            { FatalError("Coming soon..."); return null; }
+            {
+                FatalError("Coming soon...");
+                return null;
+            }
             else if (commandName.Equals("path", StringComparison.InvariantCultureIgnoreCase))
                 command = new CommandPath(options);
             else if (commandName.Equals("quota", StringComparison.InvariantCultureIgnoreCase))
@@ -93,6 +93,8 @@ namespace AppData
                 command = new CommandSet(options);
             else if (commandName.Equals("signaldatachanged", StringComparison.InvariantCultureIgnoreCase))
                 command = new CommandSignalDataChanged(options);
+            else if (commandName.Equals("size", StringComparison.InvariantCultureIgnoreCase))
+                command = new CommandSize(options);
             else if (commandName.Equals("version", StringComparison.InvariantCultureIgnoreCase))
                 command = new CommandVersion(options);
             else
@@ -137,7 +139,7 @@ namespace AppData
 @"USAGE: AppData <command> <packagefamilyname> [options...]
 Commands:
   CLEAR | GET | SET | DELETE | IMPORT | EXPORT |
-  PATH | QUOTA | SIGNALDATACHANGED | VERSION
+  PATH | QUOTA | SIGNALDATACHANGED | SIZE | VERSION
 
 Return Code:
   0 = Successful
@@ -156,6 +158,7 @@ Examples:
   AppData PATH --help
   AppData QUOTA --help
   AppData SIGNALDATACHANGED --help
+  AppData SIZE --help
   AppData VERSION --help
 ";
 #pragma warning restore

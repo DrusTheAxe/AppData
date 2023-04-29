@@ -1,5 +1,4 @@
-﻿
-namespace AppData
+﻿namespace AppData
 {
     class CommandSignalDataChanged : Command
     {

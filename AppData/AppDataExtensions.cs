@@ -1,4 +1,5 @@
-﻿using System;using System.Text;
+﻿using System;
+using System.Text;
 using Windows.Storage;
 
 namespace AppData
@@ -26,7 +27,7 @@ namespace AppData
             switch (value.GetAppDataType())
             {
                 case AppDataType.Type.Boolean:
-                    return (bool) value ? "true" : "false";
+                    return (bool)value ? "true" : "false";
                 case AppDataType.Type.UInt8:
                 case AppDataType.Type.Int16:
                 case AppDataType.Type.UInt16:
