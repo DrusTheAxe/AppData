@@ -60,4 +60,10 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\source\repos\appdata\AppData\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\source\repos\appdata\AppData\.editorconfig" />
+  </ItemGroup>
 </Project>

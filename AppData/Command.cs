@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AppData
 {
@@ -84,7 +81,10 @@ namespace AppData
             else if (commandName.Equals("get", StringComparison.InvariantCultureIgnoreCase))
                 command = new CommandGet(options);
             else if (commandName.Equals("import", StringComparison.InvariantCultureIgnoreCase))
-            { FatalError("Coming soon..."); return null; }
+            {
+                FatalError("Coming soon...");
+                return null;
+            }
             else if (commandName.Equals("path", StringComparison.InvariantCultureIgnoreCase))
                 command = new CommandPath(options);
             else if (commandName.Equals("quota", StringComparison.InvariantCultureIgnoreCase))

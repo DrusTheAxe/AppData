@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
 namespace AppData
@@ -49,7 +45,7 @@ namespace AppData
         /// <param name="options">A combination of one or more
         /// <see cref="WildCardOptions"/>.</param>
         public Wildcard(string pattern, WildcardOptions options)
-            : base(WildcardToRegex(pattern), (RegexOptions)((int) options | (int) RegexOptions.Singleline))
+            : base(WildcardToRegex(pattern), (RegexOptions)((int)options | (int)RegexOptions.Singleline))
         {
         }
 
