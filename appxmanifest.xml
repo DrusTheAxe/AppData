@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<Package
+   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+   IgnorableNamespaces="uap uap3 uap5 rescap desktop">
+  <Identity Name="APPDATA.EXE"
+    ProcessorArchitecture="neutral"
+    Publisher="CN=Troll Cave Enterprises"
+    Version="2.0.0.0" />
+  <Properties>
+    <DisplayName>APPDATA.EXE</DisplayName>
+    <PublisherDisplayName>Troll Cave Enterprises</PublisherDisplayName>
+    <Description>Building a better tomorrow &lt;del&gt;tomorrow&lt;/del&gt; today</Description>
+    <Logo>appdata-100x100.png</Logo>
+  </Properties>
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.22621.0" />
+  </Dependencies>
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust"/>
+  </Capabilities>
+  <Applications>
+    <Application Id="APPDATA.EXE" Executable="appdata.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap3:VisualElements
+            BackgroundColor="transparent"
+            DisplayName="APPDATA.EXE"
+            Square150x150Logo="appdata-100x100.png"
+            Square44x44Logo="appdata-48x48.png"
+            Description="APPDATA.EXE"
+            AppListEntry="none">
+        <uap:SplashScreen BackgroundColor="transparent" Image="appdata-100x100.png" uap5:Optional="true"/>
+      </uap3:VisualElements>
+      <Extensions>
+        <uap3:Extension Category="windows.appExecutionAlias">
+          <uap3:AppExecutionAlias>
+            <desktop:ExecutionAlias Alias="appdata.exe"/>
+          </uap3:AppExecutionAlias>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+</Package>
