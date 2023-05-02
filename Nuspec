@@ -3,17 +3,17 @@
   <metadata>
     <id>appdata</id>
     <title>AppData</title>
-    <version>0.9.3</version>
+    <version>2.0.0</version>
     <authors>Howard Kapustein</authors>
     <owners>Howard Kapustein</owners>
     <summary>Command line application to access and manipulate ApplicationData</summary>
-    <description>APPDATA.EXE is a Windows command line application to access and manipulate [ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587), new in Windows 8. This is particularly useful if you develop applications, manage applications, or are just plain curious about what an application is storing on your behalf.
+    <description>AAPPDATA.EXE is a Windows command line application to access and manipulate [ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587), introduced in Windows 8. This is particularly useful if you develop applications, manage applications, or are just plain curious about what an application is storing on your behalf.
 
 Run with no parameters for help.
 
-This was inspired by practical needs over several long nights and weekends working on some Windows store apps. The 'spiritual' inspiration for the technical approach is [REG.EXE](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/reg.mspx?mfr=true). Consider APPDATA.EXE is to ApplicationData as REG.EXE is to the Registry.</description>
-    <projectUrl>http://appdata.kapustein.com</projectUrl>
-    <tags>admin ApplicationData appdata dev</tags>
+This was inspired by practical needs over several long nights and weekends working on some package apps. The 'spiritual' inspiration for the technical approach is [REG.EXE](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/reg.mspx?mfr=true). Think of APPDATA.EXE is to ApplicationData as REG.EXE is to the Registry.</description>
+    <projectUrl>https://github.com/DrusTheAxe/AppData</projectUrl>
+    <tags>admin ApplicationData appdata dev LocalFolder LocalCacheFolder LocalSettings</tags>
     <copyright>Copyright (C) Howard Kapustein</copyright>
     <licenseUrl>__REPLACE__</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

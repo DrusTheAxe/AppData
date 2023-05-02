@@ -26,9 +26,3 @@ The development home for APPDATA.EXE is https://github.com/DrusTheAxe/AppData in
 LICENSE
 -------
 See LICENSE for details.
-
-
-AUTHOR
-------
-Howard Kapustein  
-<howardk@microsoft.com>
