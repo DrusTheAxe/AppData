@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation and Contributors.
+﻿// Copyright (c) Howard Kapustein and Contributors.
 // Licensed under the MIT License.
 
 using System.IO;

@@ -6,7 +6,7 @@ IF %1x == x GoTo Help
 SET VER=%1
 
 SET ROOTDIR=%~dp0
-SET BINDIR=%ROOTDIR%AppData\bin\Release\net7.0-windows10.0.17763.0
+SET BINDIR=%ROOTDIR%src\bin\Release\net7.0-windows10.0.17763.0
 SET TARGET=%BINDIR%\AppData-%VER%.msix
 
 SET SCRATCH=%BINDIR%\msix
@@ -17,8 +17,8 @@ COPY %ROOTDIR%\appxmanifest.xml %SCRATCH%\*
 COPY %ROOTDIR%\LICENSE %SCRATCH%\*
 COPY %ROOTDIR%\README.md %SCRATCH%\*
 COPY %ROOTDIR%\README.html %SCRATCH%\*
-COPY %ROOTDIR%\AppData\appdata-48x48.png %SCRATCH%\*
-COPY %ROOTDIR%\AppData\appdata-100x100.png %SCRATCH%\*
+COPY %ROOTDIR%\src\appdata-48x48.png %SCRATCH%\*
+COPY %ROOTDIR%\src\appdata-100x100.png %SCRATCH%\*
 
 SET MAKEAPPX=makeappx.exe
 SET MAKEAPPX_OPTS=pack /v /o /d %SCRATCH% /p %TARGET%

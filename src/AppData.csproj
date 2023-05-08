@@ -61,9 +61,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EditorConfigFiles Remove="C:\source\repos\appdata\AppData\.editorconfig" />
+    <EditorConfigFiles Remove="$(RepoRoot)\src\.editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\source\repos\appdata\AppData\.editorconfig" />
+    <None Include="$(RepoRoot)\src\.editorconfig" />
   </ItemGroup>
 </Project>
