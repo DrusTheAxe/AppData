@@ -6,7 +6,7 @@ IF %1x == x GoTo Help
 SET VER=%1
 
 SET ROOTDIR=%~dp0
-SET BINDIR=%ROOTDIR%src\bin\Release\net7.0-windows10.0.17763.0
+SET BINDIR=%ROOTDIR%bin\Release\AnyCPU
 SET TARGET=%BINDIR%\AppData-%VER%.msix
 
 SET SCRATCH=%BINDIR%\msix
