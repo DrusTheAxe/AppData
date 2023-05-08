@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
+
+using System;
 using System.Text.RegularExpressions;
 
 namespace AppData
@@ -13,7 +16,7 @@ namespace AppData
         public enum WildcardOptions
         {
             /// <summary>
-            /// Specifies that cultural differences in language is ignored. 
+            /// Specifies that cultural differences in language is ignored.
             /// See Performing Culture-Insensitive Operations in the RegularExpressions namespace for more information.
             /// </summary>
             CultureInvariant = RegexOptions.CultureInvariant,
