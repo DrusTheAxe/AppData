@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>appdata</id>
-    <title>AppData</title>
+    <id>APPDATA.EXE</id>
+    <title>APPDATA.EXE</title>
     <version>$version$</version>
     <icon>images\appdata-64x64.png</icon>
     <readme>docs\readme.md</readme>
