@@ -10,7 +10,7 @@
   <Identity Name="APPDATA.EXE"
     ProcessorArchitecture="neutral"
     Publisher="CN=Troll Cave Enterprises"
-    Version="2.1.0.0" />
+    Version="a.b.c.d" />
   <Properties>
     <DisplayName>APPDATA.EXE</DisplayName>
     <PublisherDisplayName>Troll Cave Enterprises</PublisherDisplayName>

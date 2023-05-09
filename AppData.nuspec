@@ -3,7 +3,7 @@
   <metadata>
     <id>appdata</id>
     <title>AppData</title>
-    <version>2.1.0</version>
+    <version>$version$</version>
     <icon>images\appdata-64x64.png</icon>
     <readme>docs\readme.md</readme>
     <authors>Howard Kapustein</authors>
@@ -18,12 +18,13 @@ This was inspired by practical needs over several long nights and weekends worki
     <tags>admin ApplicationData appdata dev LocalFolder LocalCacheFolder LocalSettings TemporaryFolder MSIX</tags>
     <copyright>Copyright (C) Howard Kapustein</copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <repository type="git" url="https://github.com/DrusTheAxe/AppData" branch="main" commit="???" />
+    <repository type="git" url="https://github.com/DrusTheAxe/AppData" branch="main" />
     <releaseNotes></releaseNotes>
   </metadata>
   <files>
     <file src="src\appdata-64x64.png" target="images\" />
-    <file src="src\README.md" target="docs\" />
-    <file src="tools\**" target="tools\" />
+    <file src="LICENSE" target="docs\" />
+    <file src="README.md" target="docs\" />
+    <file src="bin\Release\AnyCPU\*" target="tools\" />
   </files>
 </package>
