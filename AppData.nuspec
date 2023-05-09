@@ -5,7 +5,7 @@
     <title>APPDATA.EXE</title>
     <version>$version$</version>
     <icon>images\appdata-64x64.png</icon>
-    <readme>docs\readme.md</readme>
+    <readme>docs\README.md</readme>
     <authors>Howard Kapustein</authors>
     <summary>Command line application to access and manipulate ApplicationData</summary>
     <description>APPDATA.EXE is a Windows command line application to access and manipulate [ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587), introduced in Windows 8. This is particularly useful if you develop applications, manage applications, or are just plain curious about what an application is storing on your behalf.
