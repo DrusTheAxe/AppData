@@ -5,9 +5,9 @@ IF %1x == x GoTo Help
 
 SET VER=%1
 
-SET ROOTDIR=%~dp0
-SET BINDIR=%ROOTDIR%bin\Release\AnyCPU
-SET TARGETDIR=%ROOTDIR%Release
+SET ROOTDIR=%~dp0\..
+SET BINDIR=%ROOTDIR%\bin\Release\AnyCPU
+SET TARGETDIR=%ROOTDIR%\Release
 SET TARGET=%TARGETDIR%\AppData-%VER%.nupkg
 
 IF "%NUGETEXE%" == "" SET NUGETEXE=C:\Util.W32\nuget\nuget.exe
