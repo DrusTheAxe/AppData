@@ -7,10 +7,10 @@
    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
    xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
    IgnorableNamespaces="uap uap3 uap5 rescap desktop">
-  <Identity Name="APPDATA.EXE"
+  <Identity Name="37849TrollCaveEnterprises.APPDATA"
     ProcessorArchitecture="neutral"
-    Publisher="CN=Troll Cave Enterprises"
-    Version="a.b.c.d" />
+    Publisher="CN=3E30C666-25E6-43DE-85CB-AE8C73750032"
+    Version="2.0.0.0" />
   <Properties>
     <DisplayName>APPDATA.EXE</DisplayName>
     <PublisherDisplayName>Troll Cave Enterprises</PublisherDisplayName>
