@@ -23,6 +23,7 @@
   <PropertyGroup>
     <StartupObject>AppData.Program</StartupObject>
     <ApplicationIcon>appdata.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;CA1416</NoWarn>
