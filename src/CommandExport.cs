@@ -415,7 +415,6 @@ EXAMPLES:
             var fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Write | FileShare.Delete);
 
             uint countValues = 0;
-            uint countContainers = 0;
             using (SettingsWriter writer = CreateSettingsWriter(fileStream))
             {
                 WriteSettings(writer, locality, root);
@@ -431,7 +430,6 @@ EXAMPLES:
             var entry = zip.CreateEntry(locality.ToString() + "." + this.settingsFormat.ToString().ToLowerInvariant(), this.compressionLevel);
 
             uint countValues = 0;
-            uint countContainers = 0;
             using (SettingsWriter writer = CreateSettingsWriter(entry.Open()))
             {
                 WriteSettings(writer, locality, root);
