@@ -88,6 +88,8 @@ namespace AppData
                 FatalError("Coming soon...");
                 return null;
             }
+            else if (commandName.Equals("list", StringComparison.InvariantCultureIgnoreCase))
+                command = new CommandList(options);
             else if (commandName.Equals("path", StringComparison.InvariantCultureIgnoreCase))
                 command = new CommandPath(options);
             else if (commandName.Equals("quota", StringComparison.InvariantCultureIgnoreCase))

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Threading.Tasks;
+using Windows.Management.Deployment;
 
 namespace AppData
 {
@@ -25,14 +25,7 @@ appdata list *
 ";
 #pragma warning restore
 
-        [Flags]
-        enum PackageType
-        {
-            Main = (int)Windows.Management.Deployment.PackageTypes.Main,
-            Optional = (int)Windows.Management.Deployment.PackageTypes.Optional,
-            All = Main | Optional
-        };
-        PackageType packageType = PackageType.All;
+        PackageTypes m_packageTypes = PackageTypes.Main | PackageTypes.Optional;
 
         public CommandList(string[] options)
         {
@@ -49,24 +42,32 @@ appdata list *
         public override void Parse(string arg)
         {
             if (arg.Equals("-a", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--all", StringComparison.InvariantCultureIgnoreCase))
-                packageType = PackageType.All;
+                m_packageTypes = PackageTypes.Main | PackageTypes.Optional;
             else if (arg.Equals("-m", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--main", StringComparison.InvariantCultureIgnoreCase))
-                packageType = PackageType.Main;
+                m_packageTypes = PackageTypes.Main;
             else if (arg.Equals("-o", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--optional", StringComparison.InvariantCultureIgnoreCase))
-                packageType = PackageType.Optional;
+                m_packageTypes = PackageTypes.Optional;
             else
                 base.Parse(arg);
         }
 
         public override void Execute()
         {
-            PrintLineVerbose("open");
-            OpenApplicationData();
+            //PrintLineVerbose("open");
+            //OpenApplicationData();
 
             PrintLineVerbose("execute");
             try
             {
-                //PrintLineFormat("     Local: {0}", appdata.LocalFolder.Path);
+                var packageManager = new PackageManager();
+                foreach (var item in packageManager.FindPackagesForUserWithPackageTypes("", m_packageTypes))
+                {
+                    var familyName = item.Id.FamilyName;
+                    if (Glob.Match(this.packageFamilyName, familyName))
+                    {
+                        PrintLineFormat("{0}", item.Id.FamilyName);
+                    }
+                }
             }
             catch (Exception ex) { FatalError(ex.ToString()); }
         }
