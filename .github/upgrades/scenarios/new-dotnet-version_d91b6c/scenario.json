@@ -3,7 +3,7 @@
   "operationId": "d91b6ca8-440a-44c0-9845-713e6d7bacb8",
   "description": "Upgrade solution or project to new version of .NET",
   "startTime": "2026-03-28T23:50:18.3369575Z",
-  "lastUpdateTime": "2026-03-29T00:03:00.7737121Z",
+  "lastUpdateTime": "2026-03-29T00:12:18.745939Z",
   "stage": "Execution",
   "properties": {
     "SelectedScenarioStrategy": "AllAtOnce",

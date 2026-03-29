@@ -64,18 +64,11 @@ appdata list *
             OpenApplicationData();
 
             PrintLineVerbose("execute");
-            ExecuteAsync().GetAwaiter().GetResult();
             try
             {
                 //PrintLineFormat("     Local: {0}", appdata.LocalFolder.Path);
             }
             catch (Exception ex) { FatalError(ex.ToString()); }
-        }
-
-        async Task ExecuteAsync()
-        {
-            // TODO: Implement package listing logic
-            await Task.CompletedTask;
         }
     }
 }
