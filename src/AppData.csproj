@@ -4,9 +4,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Exe</OutputType>
     <Nullable>enable</Nullable>
-    <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>partial</TrimMode>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Platforms>AnyCPU;x64;arm64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>AppData.Program</StartupObject>
@@ -18,7 +17,27 @@
     <NoWarn>1701;1702;CA1416</NoWarn>
     <WarningLevel>9999</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CA1416</NoWarn>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
+    <NoWarn>1701;1702;CA1416</NoWarn>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NoWarn>1701;1702;CA1416</NoWarn>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CA1416</NoWarn>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
+    <NoWarn>1701;1702;CA1416</NoWarn>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NoWarn>1701;1702;CA1416</NoWarn>
     <WarningLevel>9999</WarningLevel>
   </PropertyGroup>
