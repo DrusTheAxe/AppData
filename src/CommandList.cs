@@ -28,8 +28,8 @@ appdata list *
         [Flags]
         enum PackageType
         {
-            Main = Windows.Management.Deployment.PackageType.Main,
-            Optional = Windows.Management.Deployment.PackageType.Optional,
+            Main = (int)Windows.Management.Deployment.PackageTypes.Main,
+            Optional = (int)Windows.Management.Deployment.PackageTypes.Optional,
             All = Main | Optional
         };
         PackageType packageType = PackageType.All;
@@ -51,9 +51,9 @@ appdata list *
             if (arg.Equals("-a", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--all", StringComparison.InvariantCultureIgnoreCase))
                 packageType = PackageType.All;
             else if (arg.Equals("-m", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--main", StringComparison.InvariantCultureIgnoreCase))
-                packageType = PackageType.Local;
+                packageType = PackageType.Main;
             else if (arg.Equals("-o", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--optional", StringComparison.InvariantCultureIgnoreCase))
-                packageType = PackageType.Roaming;
+                packageType = PackageType.Optional;
             else
                 base.Parse(arg);
         }
@@ -64,12 +64,18 @@ appdata list *
             OpenApplicationData();
 
             PrintLineVerbose("execute");
-            var result = ExecuteAsync();
+            ExecuteAsync().GetAwaiter().GetResult();
             try
             {
                 //PrintLineFormat("     Local: {0}", appdata.LocalFolder.Path);
             }
             catch (Exception ex) { FatalError(ex.ToString()); }
+        }
+
+        async Task ExecuteAsync()
+        {
+            // TODO: Implement package listing logic
+            await Task.CompletedTask;
         }
     }
 }
