@@ -198,7 +198,17 @@ Examples:
             {
                 null => GetUsageField<Command>(),
                 CommandClear c => GetUsageField<CommandClear>(),
-                Command c => GetUsageField<Command>(),
+                CommandDelete c => GetUsageField<CommandDelete>(),
+                CommandExport c => GetUsageField<CommandExport>(),
+                CommandGet c => GetUsageField<CommandGet>(),
+                CommandList c => GetUsageField<CommandList>(),
+                CommandPath c => GetUsageField<CommandPath>(),
+                CommandQuota c => GetUsageField<CommandQuota>(),
+                CommandSet c => GetUsageField<CommandSet>(),
+                CommandSignalDataChanged c => GetUsageField<CommandSignalDataChanged>(),
+                CommandSize c => GetUsageField<CommandSize>(),
+                CommandVersion c => GetUsageField<CommandVersion>(),
+                Command c => GetUsageField<Command>()
             };
             if (field is null)
                 throw new MissingFieldException("Expected private static field 'Usage'.");

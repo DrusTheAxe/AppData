@@ -8,38 +8,47 @@
     <Platforms>AnyCPU;x64;arm64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
+    <!-- Framework dependent -->
+    <SelfContained>false</SelfContained>
+
+    <!-- Single file -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+
+    <!-- R2R still works -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+    <ReadyToRunEmitSymbols>false</ReadyToRunEmitSymbols>
+
+    <!-- Size wins -->
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <EventSourceSupport>false</EventSourceSupport>
+
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+  <PropertyGroup>
     <StartupObject>AppData.Program</StartupObject>
     <ApplicationIcon>appdata.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
     <NoWarn>1701;1702;CA1416</NoWarn>
     <WarningLevel>9999</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
-    <WarningLevel>9999</WarningLevel>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
-    <WarningLevel>9999</WarningLevel>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
-    <WarningLevel>9999</WarningLevel>
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
-    <WarningLevel>9999</WarningLevel>
+  <PropertyGroup Condition="'$(Platform)'=='x64'">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
-    <WarningLevel>9999</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
-    <WarningLevel>9999</WarningLevel>
+  <PropertyGroup Condition="'$(Platform)'=='arm64'">
   </PropertyGroup>
   <ItemGroup>
     <Content Include="appdata.ico" />
