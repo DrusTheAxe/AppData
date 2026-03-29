@@ -260,9 +260,9 @@ appdata size contosso.games.solitaire_1234567890abc --all --local:settings- --ro
                 return;
             }
 
-            var rootPath = Path.GetPathRoot(path);
+            string? rootPath = Path.GetPathRoot(path);
             DISK_SPACE_INFORMATION diskSpaceInfo;
-            int hr = GetDiskSpaceInformationW(rootPath, out diskSpaceInfo);
+            int hr = GetDiskSpaceInformationW(String.IsNullOrEmpty(rootPath) ? "." : rootPath, out diskSpaceInfo);
             if (hr < 0)
             {
                 PrintLine($"ERROR: GetDiskSpaceInformationW({rootPath}) = 0x{hr:08X}");

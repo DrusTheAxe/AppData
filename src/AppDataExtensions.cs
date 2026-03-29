@@ -9,11 +9,11 @@ namespace AppData
 {
     class AppDataExtensions
     {
-        public static string BuildPath(ApplicationDataContainer container, string path)
+        public static string BuildPath(ApplicationDataContainer container, string? path)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(container.Locality.ToString().ToUpper());
-            if (!path.IsEmpty())
+            if (!String.IsNullOrEmpty(path))
             {
                 if (path[0] != '\\')
                     sb.Append('\\');
@@ -22,10 +22,12 @@ namespace AppData
             return sb.ToString();
         }
 
-        public static string ValueToJSON(object value)
+        public static string ValueToJSON(object? value)
         {
             if (value == null)
+            {
                 return "null";
+            }
 
             switch (value.GetAppDataType())
             {
@@ -40,9 +42,10 @@ namespace AppData
                 case AppDataType.Type.UInt64:
                 case AppDataType.Type.Single:
                 case AppDataType.Type.Double:
-                    return value.ToString();
+                    return $"{value.ToString()}";
                 default:
-                    return String.Format("\"{0}\"", value.ToString().JSONEscape());
+                    string valueString = value.ToString() ?? String.Empty;
+                    return $"\"{valueString.JSONEscape()}\"";
             }
         }
     }

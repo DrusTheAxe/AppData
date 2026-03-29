@@ -246,7 +246,7 @@ EXAMPLES:
                             FatalError("The operation was canceled by the user.");
                     }
 
-                    PrintLineVerboseFormat("Clearing {0}", targetRoot);
+                    PrintLineVerbose($"Clearing {targetRoot}");
                     try
                     {
                         foreach (var dir in dirs)
@@ -262,13 +262,13 @@ EXAMPLES:
             }
             else
             {
-                PrintLineVerboseFormat("Creating {0}", targetRoot);
+                PrintLineVerbose($"Creating {targetRoot}");
                 Directory.CreateDirectory(targetRoot);
             }
 
             try
             {
-                PrintLineVerboseFormat("Creating {0}", this.target);
+                PrintLineVerbose($"Creating {this.target}");
                 if ((this.locality & (int)Locality.LocalFiles) != 0)
                     FileSystemAddFolder(targetRoot, Locality.LocalFiles, appdata.LocalFolder.Path);
                 if ((this.locality & (int)Locality.LocalCacheFiles) != 0)
@@ -305,7 +305,7 @@ EXAMPLES:
 
             try
             {
-                PrintLineVerboseFormat("Creating {0}", this.target);
+                PrintLineVerbose($"Creating {this.target}");
                 using (FileStream zipFileStream = new FileStream(this.target, FileMode.Create, FileAccess.Write, FileShare.Write | FileShare.Delete))
                 {
                     using (ZipArchive zip = new ZipArchive(zipFileStream, ZipArchiveMode.Create))
@@ -334,11 +334,14 @@ EXAMPLES:
 
         private uint FileSystemAddFolder(string path, Locality locality, string source)
         {
-            PrintLineFormat("Scanning {0}", locality.ToString());
+            PrintLine($"Scanning {locality}");
 
-            string parent = Path.GetDirectoryName(source);
+            string? parent = Path.GetDirectoryName(source);
             string saveCurrentDirectory = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(parent);
+            if (!String.IsNullOrEmpty(parent))
+            {
+                Directory.SetCurrentDirectory(parent);
+            }
 
             uint count = 0;
             string sourceRoot = Path.GetFileName(source);
@@ -353,7 +356,10 @@ EXAMPLES:
                 ++count;
             }
 
-            Directory.SetCurrentDirectory(saveCurrentDirectory);
+            if (!String.IsNullOrEmpty(parent))
+            {
+                Directory.SetCurrentDirectory(saveCurrentDirectory);
+            }
 
             if (this.displayLevel < DisplayLevel.Verbose && count > 0)
                 PrintLine();
@@ -363,11 +369,14 @@ EXAMPLES:
 
         private uint ZipAddFolder(ZipArchive zip, Locality locality, string source)
         {
-            PrintLineFormat("Scanning {0}", locality.ToString());
+            PrintLine($"Scanning {locality}");
 
-            string parent = Path.GetDirectoryName(source);
+            string? parent = Path.GetDirectoryName(source);
             string saveCurrentDirectory = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(parent);
+            if (!String.IsNullOrEmpty(parent))
+            {
+                Directory.SetCurrentDirectory(parent);
+            }
 
             uint count = 0;
             string sourceRoot = Path.GetFileName(source);
@@ -391,7 +400,10 @@ EXAMPLES:
                 }
             }
 
-            Directory.SetCurrentDirectory(saveCurrentDirectory);
+            if (!String.IsNullOrEmpty(parent))
+            {
+                Directory.SetCurrentDirectory(saveCurrentDirectory);
+            }
 
             if (this.displayLevel < DisplayLevel.Verbose && count > 0)
                 PrintLine();
@@ -402,14 +414,14 @@ EXAMPLES:
         private void ShowProgressAddingFileSystemEntry(string fse)
         {
             if (this.displayLevel >= DisplayLevel.Verbose)
-                PrintLineVerboseFormat("...Adding {0}", fse);
+                PrintLineVerbose($"...Adding {fse}");
             else
                 Print(".");
         }
 
         private uint FileSystemAddSettings(string path, Locality locality, ApplicationDataContainer root)
         {
-            PrintLineFormat("Scanning {0}", locality.ToString());
+            PrintLine($"Scanning {locality}");
 
             string filename = Path.Combine(path, locality.ToString() + "." + this.settingsFormat.ToString().ToLowerInvariant());
             var fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Write | FileShare.Delete);
@@ -425,7 +437,7 @@ EXAMPLES:
 
         private uint ZipAddSettings(ZipArchive zip, Locality locality, ApplicationDataContainer root)
         {
-            PrintLineFormat("Scanning {0}", locality.ToString());
+            PrintLine($"Scanning {locality}");
 
             var entry = zip.CreateEntry(locality.ToString() + "." + this.settingsFormat.ToString().ToLowerInvariant(), this.compressionLevel);
 
@@ -559,14 +571,14 @@ EXAMPLES:
         private void ShowProgressAddingSettingsValue(string key)
         {
             if (this.displayLevel >= DisplayLevel.Verbose)
-                PrintLineVerboseFormat("...Adding value {0}", key);
+                PrintLineVerbose($"...Adding value {key}");
             else
                 Print(".");
         }
 
         private bool PromptForOverwrite(string target)
         {
-            return Stdio.Prompt(String.Format("Export target {0} is not empty, overwrite (Yes/No)? ", target));
+            return Stdio.Prompt($"Export target {target} is not empty, overwrite (Yes/No)? ");
         }
 
         private ApplicationDataLocality LocalityToApplicationDataLocality(Locality locality)

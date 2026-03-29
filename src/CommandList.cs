@@ -53,9 +53,6 @@ appdata list *
 
         public override void Execute()
         {
-            //PrintLineVerbose("open");
-            //OpenApplicationData();
-
             PrintLineVerbose("execute");
             try
             {
@@ -65,7 +62,7 @@ appdata list *
                     var familyName = item.Id.FamilyName;
                     if (Glob.Match(this.packageFamilyName, familyName))
                     {
-                        PrintLineFormat("{0}", item.Id.FamilyName);
+                        PrintLine($"{item.Id.FamilyName}");
                     }
                 }
             }

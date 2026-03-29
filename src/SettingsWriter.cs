@@ -9,7 +9,7 @@ namespace AppData
 {
     public abstract class SettingsWriter : IDisposable
     {
-        protected StreamWriter writer;
+        protected StreamWriter? writer;
 
         protected SettingsWriter(Stream stream)
         {

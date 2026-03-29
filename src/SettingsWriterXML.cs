@@ -31,82 +31,123 @@ namespace AppData
 
         void WriteIndent()
         {
-            writer.Write(this.indentString);
+            writer?.Write(this.indentString);
         }
 
         public override void Start()
         {
-            WriteIndent();
-            writer.WriteLine("<Settings>");
-            Indent();
+            if (writer != null)
+            {
+                WriteIndent();
+                writer.WriteLine("<Settings>");
+                Indent();
+            }
         }
         public override void End()
         {
-            Unindent();
-            WriteIndent();
-            writer.WriteLine("</Settings>");
+            if (writer != null)
+            {
+                Unindent();
+                WriteIndent();
+                writer.WriteLine("</Settings>");
+            }
         }
 
         public override void StartContainers(ApplicationDataLocality locality)
         {
-            WriteIndent();
-            writer.WriteLine("<Containers locality='{0}'>", locality.ToString());
-            Indent();
+            if (writer != null)
+            {
+                WriteIndent();
+                writer.WriteLine($"<Containers locality='{locality.ToString()}'>");
+                Indent();
+            }
         }
         public override void EndContainers()
         {
-            Unindent();
-            WriteIndent();
-            writer.WriteLine("</Containers>");
+            if (writer != null)
+            {
+                Unindent();
+                WriteIndent();
+                writer.WriteLine("</Containers>");
+            }
         }
 
         public override void StartContainer(ApplicationDataContainer container)
         {
-            WriteIndent();
-            writer.WriteLine("<Container Name='{0}'>", container.Name.XMLEscape());
-            Indent();
+            if (writer != null)
+            {
+                WriteIndent();
+                writer.WriteLine($"<Container Name='{container.Name.XMLEscape()}'>");
+                Indent();
+            }
         }
         public override void EndContainer(bool isLastAtThisNestingLevel)
         {
-            Unindent();
-            WriteIndent();
-            writer.WriteLine("</Container>");
+            if (writer != null)
+            {
+                Unindent();
+                WriteIndent();
+                writer.WriteLine("</Container>");
+            }
         }
 
         public override void StartValues()
         {
-            WriteIndent();
-            writer.WriteLine("<Values>");
-            Indent();
+            if (writer != null)
+            {
+                WriteIndent();
+                writer.WriteLine("<Values>");
+                Indent();
+            }
         }
         public override void EndValues(bool isLastAtThisNestingLevel)
         {
-            Unindent();
-            WriteIndent();
-            writer.WriteLine("</Values>");
+            if (writer != null)
+            {
+                Unindent();
+                WriteIndent();
+                writer.WriteLine("</Values>");
+            }
         }
 
         public override void WriteValue(string key, object value, bool isLastAtThisNestingLevel)
         {
-            var type = value.GetAppDataType();
+            if (writer == null)
+            {
+                return;
+            }
+
+            AppDataType.Type type = value.GetAppDataType();
             System.Diagnostics.Debug.Assert(type != AppDataType.Type.ApplicationDataCompositeValue);
 
             WriteIndent();
-            writer.WriteLine(String.Format("<Value Name='{0}' Type='{1}'>{2}</Value>",
-                key.XMLEscape(), type.ToString(), value.ToString().XMLEscape()));
+            if (type == AppDataType.Type.Empty)
+            {
+                writer.WriteLine($"<Value Name='{key.XMLEscape()}' Type='{type}'/>");
+            }
+            else
+            {
+                writer.WriteLine($"<Value Name='{key.XMLEscape()}' Type='{type}'>{value.ToString().XMLEscape()}</Value>");
+            }
         }
 
         public override void StartComposite(string name)
         {
-            WriteIndent();
-            writer.WriteLine(String.Format("<Composite Name='{0}'>", name.XMLEscape()));
-            Indent();
+            if (writer != null)
+            {
+                WriteIndent();
+                writer.WriteLine($"<Composite Name='{name.XMLEscape()}'>");
+                Indent();
+            }
         }
         public override void EndComposite(bool isLastAtThisNestingLevel)
         {
-            Unindent();
-            WriteIndent();
-            writer.WriteLine("</Composite>");
+            if (writer != null)
+            {
+                Unindent();
+                WriteIndent();
+                writer.WriteLine("</Composite>");
+            }
         }
     }
 }

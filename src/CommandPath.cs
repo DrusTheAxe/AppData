@@ -74,13 +74,13 @@ appdata path contosso.games.solitaire_1234567890abc
 
             PrintLineVerbose("execute");
             if (this.locality == Locality.All || this.locality == Locality.Local)
-                PrintLineFormat("     Local: {0}", appdata.LocalFolder.Path);
+                PrintLine($"     Local: {appdata.LocalFolder.Path}");
             if (this.locality == Locality.All || this.locality == Locality.LocalCache)
-                PrintLineFormat("LocalCache: {0}", appdata.LocalCacheFolder.Path);
+                PrintLine($"LocalCache: {appdata.LocalCacheFolder.Path}");
             if (this.locality == Locality.All || this.locality == Locality.Roaming)
-                PrintLineFormat("   Roaming: {0}", appdata.RoamingFolder.Path);
+                PrintLine($"   Roaming: {appdata.RoamingFolder.Path}");
             if (this.locality == Locality.All || this.locality == Locality.Temporary)
-                PrintLineFormat(" Temporary: {0}", appdata.TemporaryFolder.Path);
+                PrintLine($" Temporary: {appdata.TemporaryFolder.Path}");
         }
     }
 }

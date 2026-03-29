@@ -38,7 +38,7 @@ EXAMPLES:
             PrintLineVerbose("open");
             OpenApplicationData();
 
-            PrintLineFormat("Quota: {0} KB", appdata.RoamingStorageQuota);
+            PrintLine($"Quota: {appdata.RoamingStorageQuota} KB");
         }
     }
 }

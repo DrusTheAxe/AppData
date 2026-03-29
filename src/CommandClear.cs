@@ -82,7 +82,7 @@ appdata clear contosso.games.solitaire_1234567890abc
             //Console.WriteLine(result.IsCanceled);
             //Console.WriteLine(result.IsCompleted);
             //Console.WriteLine(result.IsFaulted);
-            PrintLineVerboseFormat("Status: {0}", result.Status);
+            PrintLineVerbose($"Status: {result.Status}");
         }
 
         async Task ExecuteAsync()

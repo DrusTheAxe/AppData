@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Howard Kapustein and Contributors.
 // Licensed under the MIT License.
 
+#nullable enable
+
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 
@@ -12,13 +15,13 @@ namespace AppData
         public enum DisplayLevel { Quiet = -1, Brief = 0, Verbose = 1 };
         public DisplayLevel displayLevel { get; set; }
 
-        public string packageFamilyName { get; set; }
+        public string packageFamilyName { get; set; } = string.Empty;
 
-        public string[] requiredArguments;
+        public string[] requiredArguments = Array.Empty<string>();
 
-        protected Windows.Storage.ApplicationData appdata;
+        protected Windows.Storage.ApplicationData appdata = null!;
 
-        public string externalLocation { get; set; }
+        public string? externalLocation { get; set; }
 
         public void Print(DisplayLevel level, string s)
         {
@@ -110,20 +113,23 @@ namespace AppData
             return command;
         }
 
+        [DoesNotReturn]
         protected static void FatalError(string message)
         {
             FatalError(message, null);
         }
 
-        protected static void FatalError(string message, string data)
+        [DoesNotReturn]
+        protected static void FatalError(string message, string? data)
         {
             if (data == null)
-                Console.WriteLine("ERROR: {0}", message);
+                Console.WriteLine($"ERROR: {message}");
             else
-                Console.WriteLine("ERROR: {0} ({1})", message, data);
+                Console.WriteLine($"ERROR: {message} ({data})");
             Environment.Exit(1);
         }
 
+        [DoesNotReturn]
         protected static void FatalError(Exception ex)
         {
             FatalError("EXCEPTION", ex.ToString());
@@ -131,12 +137,12 @@ namespace AppData
 
         private static void DisplayHeader()
         {
-            var assembly = Assembly.GetEntryAssembly();
-            var name = assembly.GetName();
-            var description = ((AssemblyDescriptionAttribute)assembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false)[0]).Description;
-            var company = ((AssemblyCompanyAttribute)assembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false)[0]).Company;
-            var copyright = ((AssemblyCopyrightAttribute)assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
-            Console.WriteLine("{0} v{1} - {2} - {3} {4}", name.Name, name.Version.ToString(), description, copyright, company);
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            AssemblyName name = assembly.GetName();
+            string? description = ((AssemblyDescriptionAttribute)assembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false)[0]).Description;
+            string? company = ((AssemblyCompanyAttribute)assembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false)[0]).Company;
+            string? copyright = ((AssemblyCopyrightAttribute)assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
+            Console.WriteLine($"{name.Name} v{name.Version} - {description} - {copyright} {company}");
         }
 
 #pragma warning disable 414
@@ -175,11 +181,31 @@ Examples:
             DisplayHelp(null);
         }
 
-        public static void DisplayHelp(Command command)
+        private static FieldInfo? GetUsageField<
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.NonPublicFields)]
+            T>()
         {
-            var type = command == null ? typeof(Command) : command.GetType();
-            var field = type.GetField("Usage", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly);
-            string usage = (string)field.GetValue(null);
+            return typeof(T).GetField(
+                "Usage",
+                BindingFlags.NonPublic |
+                BindingFlags.Static |
+                BindingFlags.DeclaredOnly);
+        }
+
+        public static void DisplayHelp(Command? command)
+        {
+            FieldInfo? field = command switch
+            {
+                null => GetUsageField<Command>(),
+                CommandClear c => GetUsageField<CommandClear>(),
+                Command c => GetUsageField<Command>(),
+            };
+            if (field is null)
+                throw new MissingFieldException("Expected private static field 'Usage'.");
+            var usageObj = field.GetValue(null);
+            if (usageObj is not string usage)
+                throw new InvalidOperationException("'Usage' must be a string.");
+            string usageString = (string)usageObj;
 
             if (command != null)
             {
@@ -188,11 +214,11 @@ Examples:
                 {
                     sb.AppendFormat("  {0,-17} = {1}\n", CommonOptions[i], CommonOptions[i + 1]);
                 }
-                usage = String.Format(usage, sb.ToString());
+                usage = String.Format(usageString, sb.ToString());
             }
 
             DisplayHeader();
-            Console.WriteLine(usage);
+            Console.WriteLine(usageString);
             Environment.Exit(1);
         }
 
@@ -207,7 +233,7 @@ Examples:
             else if (arg.Equals("--quiet", StringComparison.InvariantCultureIgnoreCase))
                 this.displayLevel = DisplayLevel.Quiet;
             else
-                FatalError(String.Format("Unknown parameter ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+                FatalError($"Unknown parameter ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
         }
 
         public void Parse(string[] args)
@@ -217,7 +243,7 @@ Examples:
 
             int count = GetRequiredArgumentsCount();
             if (args.Length < count)
-                FatalError(String.Format("Missing required parameter(s); use 'APPDATA {0} --help' for usage", GetCommandName()));
+                FatalError($"Missing required parameter(s); use 'APPDATA {GetCommandName()} --help' for usage");
             for (int i = 1; i < count; ++i)
                 if (args[i].Equals("-?") || args[i].Equals("--help"))
                     DisplayHelp(this);
@@ -236,7 +262,7 @@ Examples:
 
         protected virtual int GetRequiredArgumentsCount() { return 1; }
 
-        public virtual string GetCommandName()
+        public virtual string? GetCommandName()
         {
             string s = this.GetType().Name;
             System.Diagnostics.Debug.Assert(s.StartsWith("Command"));
@@ -250,7 +276,7 @@ Examples:
 
         protected void OpenApplicationData()
         {
-            if (packageFamilyName.IsEmpty())
+            if (String.IsNullOrEmpty(packageFamilyName))
                 DisplayHelp(this);
             try
             {

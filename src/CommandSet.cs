@@ -49,14 +49,14 @@ EXAMPLES:
         };
         Locality locality = Locality.Roaming;
 
-        string valueKey;
+        string? valueKey;
         AppDataType.Type dataType = AppDataType.Type.String;
-        string dataAsString;
-        object data;
+        string? dataAsString;
+        object? data;
 
         Overwrite overwrite = Overwrite.Prompt;
 
-        string path = "";
+        string? path = "";
 
         public CommandSet(string[] options)
         {
@@ -71,7 +71,7 @@ EXAMPLES:
             }
             catch (FormatException)
             {
-                FatalError(String.Format("Invalid data ({0}) for the type ({1}); use 'APPDATA {2} --help' for usage", this.dataAsString, AppDataType.ToString(this.dataType), GetCommandName()));
+                FatalError($"Invalid data ({this.dataAsString}) for the type ({AppDataType.ToString(this.dataType)}); use 'APPDATA {GetCommandName()} --help' for usage");
             }
         }
 
@@ -107,14 +107,14 @@ EXAMPLES:
                 }
                 catch (NotSupportedException)
                 {
-                    FatalError(String.Format("Unknown type ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+                    FatalError($"Unknown type ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
                 }
             }
             else if (arg.StartsWith("--value=", StringComparison.InvariantCultureIgnoreCase))
             {
                 string argValue = arg.Substring("--value=".Length);
-                if (argValue.IsEmpty())
-                    FatalError(String.Format("Invalid key ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+                if (String.IsNullOrEmpty(argValue))
+                    FatalError($"Invalid key ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
                 this.valueKey = argValue;
             }
             else
@@ -134,7 +134,7 @@ EXAMPLES:
 
             PrintLineVerbose("container");
             ApplicationDataContainer container;
-            if (this.path.IsEmpty())
+            if (String.IsNullOrEmpty(this.path))
                 container = settings;
             else
             {
@@ -152,7 +152,7 @@ EXAMPLES:
                 }
             }
 
-            if (!this.valueKey.IsEmpty())
+            if (!String.IsNullOrEmpty(this.valueKey))
             {
                 PrintLineVerbose("value");
                 if (container.Values.ContainsKey(this.valueKey))
@@ -176,9 +176,9 @@ EXAMPLES:
         {
             do
             {
-                Console.Write(String.Format("Value {0} exists, overwrite (Yes/No)? ", key));
-                string input = Console.ReadLine();
-                if (input.Length >= 1)
+                Console.Write($"Value {key} exists, overwrite (Yes/No)? ");
+                string? input = Console.ReadLine();
+                if (input != null && input.Length >= 1)
                 {
                     if (input[0] == 'Y' || input[0] == 'y')
                         return true;
@@ -194,17 +194,17 @@ EXAMPLES:
             System.Diagnostics.Debug.Assert(this.requiredArguments.Length == 2);
             string arg = this.requiredArguments[1];
             string[] rootAndPath = arg.Split(new char[] { '\\', '/' }, 2, StringSplitOptions.None);
-            if (rootAndPath == null || rootAndPath.Length < 1 || rootAndPath[0].IsEmpty())
-                FatalError(String.Format("Invalid path ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+            if (rootAndPath == null || rootAndPath.Length < 1 || String.IsNullOrEmpty(rootAndPath[0]))
+                FatalError($"Invalid path ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
             string prefix = rootAndPath[0];
             if (prefix.Equals("local", StringComparison.InvariantCultureIgnoreCase))
                 this.locality = Locality.Local;
             else if (prefix.Equals("roaming", StringComparison.InvariantCultureIgnoreCase))
                 this.locality = Locality.Roaming;
             else
-                FatalError(String.Format("Invalid locality in path ({0}); use 'APPDATA {1} --help' for usage", prefix, GetCommandName()));
-            string suffix = rootAndPath.Length > 1 ? rootAndPath[1] : null;
-            this.path = suffix.IsEmpty() ? null : suffix;
+                FatalError($"Invalid locality in path ({prefix}); use 'APPDATA {GetCommandName()} --help' for usage");
+            string? suffix = rootAndPath.Length > 1 ? rootAndPath[1] : null;
+            this.path = String.IsNullOrEmpty(suffix) ? null : suffix;
         }
     }
 }

@@ -62,25 +62,28 @@ namespace AppData
             return t.ToString().Replace("Array", "[]").ToUpper();
         }
 
-        public static object Parse(AppDataType.Type type, string s)
+        public static object? Parse(AppDataType.Type type, string? s)
         {
-            object obj = null;
-            switch (type)
+            object? obj = null;
+            if (s != null)
             {
-                case AppDataType.Type.Empty: obj = PropertyValue.CreateEmpty(); ; break;
-                case AppDataType.Type.UInt8: obj = PropertyValue.CreateUInt8(s.IsEmpty() ? (byte)0 : Byte.Parse(s)); break;
-                case AppDataType.Type.Int16: obj = PropertyValue.CreateInt16(s.IsEmpty() ? (short)0 : Int16.Parse(s)); break;
-                case AppDataType.Type.UInt16: obj = PropertyValue.CreateUInt16(s.IsEmpty() ? (ushort)0 : UInt16.Parse(s)); break;
-                case AppDataType.Type.Int32: obj = PropertyValue.CreateInt32(s.IsEmpty() ? 0 : Int32.Parse(s)); break;
-                case AppDataType.Type.UInt32: obj = PropertyValue.CreateUInt32(s.IsEmpty() ? 0 : UInt32.Parse(s)); break;
-                case AppDataType.Type.Int64: obj = PropertyValue.CreateInt64(s.IsEmpty() ? 0 : Int64.Parse(s)); break;
-                case AppDataType.Type.UInt64: obj = PropertyValue.CreateUInt64(s.IsEmpty() ? 0 : UInt64.Parse(s)); break;
-                case AppDataType.Type.Single: obj = PropertyValue.CreateSingle(s.IsEmpty() ? 0 : Single.Parse(s)); break;
-                case AppDataType.Type.Double: obj = PropertyValue.CreateDouble(s.IsEmpty() ? 0 : Double.Parse(s)); break;
-                case AppDataType.Type.Char16: obj = PropertyValue.CreateChar16(Char.Parse(s)); break;
-                case AppDataType.Type.Boolean: obj = PropertyValue.CreateBoolean(s.IsEmpty() ? false : Boolean.Parse(s)); break;
-                case AppDataType.Type.String: obj = s; break;
-                default: break;
+                switch (type)
+                {
+                    case AppDataType.Type.Empty: obj = PropertyValue.CreateEmpty(); ; break;
+                    case AppDataType.Type.UInt8: obj = PropertyValue.CreateUInt8(String.IsNullOrEmpty(s) ? (byte)0 : Byte.Parse(s)); break;
+                    case AppDataType.Type.Int16: obj = PropertyValue.CreateInt16(String.IsNullOrEmpty(s) ? (short)0 : Int16.Parse(s)); break;
+                    case AppDataType.Type.UInt16: obj = PropertyValue.CreateUInt16(String.IsNullOrEmpty(s) ? (ushort)0 : UInt16.Parse(s)); break;
+                    case AppDataType.Type.Int32: obj = PropertyValue.CreateInt32(String.IsNullOrEmpty(s) ? 0 : Int32.Parse(s)); break;
+                    case AppDataType.Type.UInt32: obj = PropertyValue.CreateUInt32(String.IsNullOrEmpty(s) ? 0 : UInt32.Parse(s)); break;
+                    case AppDataType.Type.Int64: obj = PropertyValue.CreateInt64(String.IsNullOrEmpty(s) ? 0 : Int64.Parse(s)); break;
+                    case AppDataType.Type.UInt64: obj = PropertyValue.CreateUInt64(String.IsNullOrEmpty(s) ? 0 : UInt64.Parse(s)); break;
+                    case AppDataType.Type.Single: obj = PropertyValue.CreateSingle(String.IsNullOrEmpty(s) ? 0 : Single.Parse(s)); break;
+                    case AppDataType.Type.Double: obj = PropertyValue.CreateDouble(String.IsNullOrEmpty(s) ? 0 : Double.Parse(s)); break;
+                    case AppDataType.Type.Char16: obj = PropertyValue.CreateChar16(Char.Parse(s)); break;
+                    case AppDataType.Type.Boolean: obj = PropertyValue.CreateBoolean(String.IsNullOrEmpty(s) ? false : Boolean.Parse(s)); break;
+                    case AppDataType.Type.String: obj = s; break;
+                    default: break;
+                }
             }
             return obj;
         }
@@ -95,7 +98,7 @@ namespace AppData
                 if (tx.appdataTypeString.Equals(s, StringComparison.InvariantCultureIgnoreCase))
                     return tx.appdataType;
             }
-            throw new NotSupportedException(String.Format("Unknown type ({0})", s));
+            throw new NotSupportedException($"Unknown type ({s})");
         }
 
         public static AppDataType.Type ToAppDataType(string s, AppDataType.Type[] allowedTypes)
@@ -103,7 +106,7 @@ namespace AppData
             AppDataType.Type appdataType = ToAppDataType(s);
             if (Array.Exists(allowedTypes, t => t == appdataType))
                 return appdataType;
-            throw new NotSupportedException(String.Format("Unknown type ({0})", s));
+            throw new NotSupportedException($"Unknown type ({s})");
         }
 
         internal class TypeXref
@@ -166,14 +169,18 @@ namespace AppData
         public static AppDataType.Type GetAppDataType(this object obj)
         {
             if (obj == null)
+            {
                 return AppDataType.Type.Empty;
+            }
             var type = obj.GetType();
             foreach (var tx in AppDataType.typeXrefTable)
             {
                 if (type == tx.objectType)
+                {
                     return tx.appdataType;
+                }
             }
-            throw new NotSupportedException(String.Format("Unknown type ({0})", type.ToString()));
+            throw new NotSupportedException($"Unknown type ({type})");
         }
     }
 }

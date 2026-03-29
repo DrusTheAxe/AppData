@@ -66,15 +66,15 @@ EXAMPLES:
         bool recurse = false;
 
         AppDataType.Type matchType = AppDataType.Type.Unknown;
-        string matchValueKey;
+        string? matchValueKey;
 
         Wildcard.WildcardOptions findOptions = Wildcard.WildcardOptions.IgnoreCase;
-        string findContainerName;
-        Wildcard findContainerNameWildcard;
-        string findValueKey;
-        Wildcard findValueKeyWildcard;
+        string? findContainerName;
+        Wildcard? findContainerNameWildcard;
+        string? findValueKey;
+        Wildcard? findValueKeyWildcard;
 
-        string path = "";
+        string? path = "";
 
         public CommandGet(string[] options)
         {
@@ -83,9 +83,9 @@ EXAMPLES:
             this.packageFamilyName = this.requiredArguments[0];
             ParsePathParameter();
 
-            if (!this.findContainerName.IsEmpty())
+            if (!String.IsNullOrEmpty(this.findContainerName))
                 this.findContainerNameWildcard = new Wildcard(this.findContainerName, this.findOptions);
-            if (!this.findValueKey.IsEmpty())
+            if (!String.IsNullOrEmpty(this.findValueKey))
                 this.findValueKeyWildcard = new Wildcard(this.findValueKey, this.findOptions);
         }
 
@@ -107,15 +107,15 @@ EXAMPLES:
             else if (arg.StartsWith("--find:container=", StringComparison.InvariantCultureIgnoreCase))
             {
                 string argValue = arg.Substring("--find:container=".Length);
-                if (argValue.IsEmpty())
-                    FatalError(String.Format("Invalid name ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+                if (String.IsNullOrEmpty(argValue))
+                    FatalError($"Invalid name ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
                 this.findContainerName = argValue;
             }
             else if (arg.StartsWith("--find:value=", StringComparison.InvariantCultureIgnoreCase))
             {
                 string argValue = arg.Substring("--find:value=".Length);
-                if (argValue.IsEmpty())
-                    FatalError(String.Format("Invalid key ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+                if (String.IsNullOrEmpty(argValue))
+                    FatalError($"Invalid key ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
                 this.findValueKey = argValue;
             }
             else if (arg.Equals("-r", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--recurse", StringComparison.InvariantCultureIgnoreCase))
@@ -131,14 +131,14 @@ EXAMPLES:
                 }
                 catch (NotSupportedException)
                 {
-                    FatalError(String.Format("Unknown type ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+                    FatalError($"Unknown type ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
                 }
             }
             else if (arg.StartsWith("--value=", StringComparison.InvariantCultureIgnoreCase))
             {
                 string argValue = arg.Substring("--value=".Length);
-                if (argValue.IsEmpty())
-                    FatalError(String.Format("Invalid key ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+                if (String.IsNullOrEmpty(argValue))
+                    FatalError($"Invalid key ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
                 this.matchValueKey = argValue;
             }
             else
@@ -156,7 +156,7 @@ EXAMPLES:
             System.Diagnostics.Debug.Assert(this.locality == Locality.Local || this.locality == Locality.Roaming);
             var settings = (this.locality == Locality.Local) ? appdata.LocalSettings : appdata.RoamingSettings;
 
-            if (this.path.IsEmpty())
+            if (String.IsNullOrEmpty(this.path))
                 Walk(settings);
             else
             {
@@ -183,17 +183,17 @@ EXAMPLES:
             System.Diagnostics.Debug.Assert(this.requiredArguments.Length == 2);
             string arg = this.requiredArguments[1];
             string[] rootAndPath = arg.Split(new char[] { '\\' }, 2, StringSplitOptions.None);
-            if (rootAndPath == null || rootAndPath.Length < 1 || rootAndPath[0].IsEmpty())
-                FatalError(String.Format("Invalid path ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+            if (rootAndPath == null || rootAndPath.Length < 1 || String.IsNullOrEmpty(rootAndPath[0]))
+                FatalError($"Invalid path ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
             string prefix = rootAndPath[0];
             if (prefix.Equals("local", StringComparison.InvariantCultureIgnoreCase))
                 this.locality = Locality.Local;
             else if (prefix.Equals("roaming", StringComparison.InvariantCultureIgnoreCase))
                 this.locality = Locality.Roaming;
             else
-                FatalError(String.Format("Invalid locality in path ({0}); use 'APPDATA {1} --help' for usage", prefix, GetCommandName()));
-            string suffix = rootAndPath.Length > 1 ? rootAndPath[1] : null;
-            this.path = suffix.IsEmpty() ? null : suffix;
+                FatalError($"Invalid locality in path ({prefix}); use 'APPDATA {GetCommandName()} --help' for usage");
+            string? suffix = rootAndPath.Length > 1 ? rootAndPath[1] : null;
+            this.path = String.IsNullOrEmpty(suffix) ? null : suffix;
         }
 
         private void Walk(ApplicationDataContainer container)
@@ -258,12 +258,12 @@ EXAMPLES:
             if (type == AppDataType.Type.ApplicationDataCompositeValue)
                 DumpComposite(key, (ApplicationDataCompositeValue)value);
             else
-                PrintLineFormat("    {0}    {1}    {2}", key.ToString(), type.ToString(), value.ToString());
+                PrintLine($"    {key}    {type}    {value}");
         }
 
         private void DumpComposite(string compositeKey, ApplicationDataCompositeValue composite)
         {
-            PrintLineFormat("    {0}    {1}", compositeKey.ToString(), AppDataType.Type.ApplicationDataCompositeValue.ToString());
+            PrintLine($"    {compositeKey}    {AppDataType.Type.ApplicationDataCompositeValue}");
 
             var values = composite.Values;
             foreach (var key in composite.Keys)
@@ -274,7 +274,7 @@ EXAMPLES:
                 if (this.findValueKeyWildcard != null && !this.findValueKeyWildcard.IsMatch(key))
                     continue;
 
-                var value = composite[key];
+                object value = composite[key];
 
                 var type = value.GetAppDataType();
                 System.Diagnostics.Debug.Assert(type != AppDataType.Type.ApplicationDataCompositeValue);
@@ -284,7 +284,7 @@ EXAMPLES:
                     continue;
 
                 // Match!
-                PrintLineFormat("        {0}    {1}    {2}", key.ToString(), type.ToString(), value.ToString());
+                PrintLine($"        {key}    {type}    {value}");
 
             }
         }
