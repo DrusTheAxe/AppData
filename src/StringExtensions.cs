@@ -1,21 +1,23 @@
 ﻿// Copyright (c) Howard Kapustein and Contributors.
 // Licensed under the MIT License.
 
+using System;
 using System.Text;
 
 namespace AppData
 {
     public static class StringExtensions
     {
-        public static bool IsEmpty(this string s)
+        public static string? XMLEscape(this string? s)
         {
-            return s == null || s.Length == 0;
-        }
-
-        public static string XMLEscape(this string s)
-        {
-            if (!s.XMLEscapeNeeded())
+            if (s == null)
+            {
                 return s;
+            }
+            if (!s.XMLEscapeNeeded())
+            {
+                return s;
+            }
 
             StringBuilder sb = new StringBuilder(s.Length * 2);
             foreach (var c in s)
@@ -40,7 +42,7 @@ namespace AppData
 
         public static bool XMLEscapeNeeded(this string s)
         {
-            if (s.IsEmpty())
+            if (String.IsNullOrEmpty(s))
                 return false;
             foreach (var c in s)
             {
@@ -52,7 +54,7 @@ namespace AppData
 
         public static string JSONEscape(this string s)
         {
-            if (s.IsEmpty())
+            if (String.IsNullOrEmpty(s))
                 return s;
             return s.Replace("\"", "\\\"");
         }

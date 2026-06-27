@@ -12,7 +12,9 @@ namespace AppData
             do
             {
                 Console.Write(message);
-                string input = Console.ReadLine();
+                string? input = Console.ReadLine();
+                if (String.IsNullOrEmpty(input))
+                    continue;
                 if (input.Length >= 1)
                 {
                     if (input[0] == 'Y' || input[0] == 'y')

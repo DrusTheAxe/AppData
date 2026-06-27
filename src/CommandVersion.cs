@@ -40,7 +40,7 @@ EXAMPLES:
             Console.WriteLine("open");
             OpenApplicationData();
 
-            Console.WriteLine("Version: {0}", appdata.Version);
+            Console.WriteLine($"Version: {appdata.Version}");
         }
     }
 }

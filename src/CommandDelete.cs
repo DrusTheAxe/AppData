@@ -43,11 +43,11 @@ EXAMPLES:
         };
         Locality locality = Locality.Roaming;
 
-        string valueKey;
+        string? valueKey;
         bool deleteAllValuesInContainer;
         bool force = false;
 
-        string path = "";
+        string? path = "";
 
         public CommandDelete(string[] options)
         {
@@ -71,8 +71,10 @@ EXAMPLES:
             else if (arg.StartsWith("--value=", StringComparison.InvariantCultureIgnoreCase))
             {
                 string argValue = arg.Substring("--value=".Length);
-                if (argValue.IsEmpty())
-                    FatalError(String.Format("Invalid key ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+                if (String.IsNullOrEmpty(argValue))
+                {
+                    FatalError($"Invalid key ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
+                }
                 this.valueKey = argValue;
             }
             else if (arg.Equals("--value:all", StringComparison.InvariantCultureIgnoreCase))
@@ -95,10 +97,10 @@ EXAMPLES:
             var settings = (this.locality == Locality.Local) ? appdata.LocalSettings : appdata.RoamingSettings;
 
             PrintLineVerbose("container");
-            if (this.valueKey.IsEmpty() && !this.deleteAllValuesInContainer)
+            if (String.IsNullOrEmpty(this.valueKey) && !this.deleteAllValuesInContainer)
             {
-                System.Diagnostics.Debug.Assert(!this.path.IsEmpty());
-                if (!this.force && !Stdio.Prompt(String.Format("Permanently delete the container {0} (Yes/No)? ", AppDataExtensions.BuildPath(settings, this.path))))
+                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(this.path));
+                if (!this.force && !Stdio.Prompt($"Permanently delete the container {AppDataExtensions.BuildPath(settings, this.path)} (Yes/No)? "))
                     FatalError("The operation was canceled by the user.");
                 try
                 {
@@ -116,7 +118,7 @@ EXAMPLES:
             else
             {
                 ApplicationDataContainer container;
-                if (this.path.IsEmpty())
+                if (String.IsNullOrEmpty(this.path))
                     container = settings;
                 else
                 {
@@ -148,7 +150,7 @@ EXAMPLES:
             PrintLine("The operation completed successfully.");
         }
 
-        private void DeleteValues(ApplicationDataContainer container, string containerPath)
+        private void DeleteValues(ApplicationDataContainer container, string? containerPath)
         {
             System.Diagnostics.Debug.Assert(container != null);
 
@@ -165,10 +167,10 @@ EXAMPLES:
             }
         }
 
-        private void DeleteValue(ApplicationDataContainer container, string key)
+        private void DeleteValue(ApplicationDataContainer container, string? key)
         {
             System.Diagnostics.Debug.Assert(container != null);
-            System.Diagnostics.Debug.Assert(!key.IsEmpty());
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(key));
 
             if (container.Values.ContainsKey(key))
             {
@@ -178,19 +180,19 @@ EXAMPLES:
                     if (!ok)
                         FatalError("The operation was canceled by the user.");
                 }
-                PrintLineVerboseFormat("Delete value {0}", key);
+                PrintLineVerbose($"Delete value {key}");
                 container.Values.Remove(key);
             }
         }
 
-        private bool PromptForDelete(Windows.Foundation.Collections.IPropertySet values, string containerPath)
+        private bool PromptForDelete(Windows.Foundation.Collections.IPropertySet values, string? containerPath)
         {
-            return Stdio.Prompt(String.Format("Delete all {0} {1} in the container {2} (Yes/No)? ", values.Count, "value".Plural(values.Count), containerPath));
+            return Stdio.Prompt($"Delete all {values.Count} {"value".Plural(values.Count)} in the container {containerPath} (Yes/No)? ");
         }
 
         private bool PromptForDelete(string key)
         {
-            return Stdio.Prompt(String.Format("Delete the value {0} (Yes/No)? ", key));
+            return Stdio.Prompt($"Delete the value {key} (Yes/No)? ");
         }
 
         private void ParsePathParameter()
@@ -199,17 +201,17 @@ EXAMPLES:
             System.Diagnostics.Debug.Assert(this.requiredArguments.Length == 2);
             string arg = this.requiredArguments[1];
             string[] rootAndPath = arg.Split(new char[] { '\\', '/' }, 2, StringSplitOptions.None);
-            if (rootAndPath == null || rootAndPath.Length < 1 || rootAndPath[0].IsEmpty())
-                FatalError(String.Format("Invalid path ({0}); use 'APPDATA {1} --help' for usage", arg, GetCommandName()));
+            if (rootAndPath == null || rootAndPath.Length < 1 || String.IsNullOrEmpty(rootAndPath[0]))
+                FatalError($"Invalid path ({arg}); use 'APPDATA {GetCommandName()} --help' for usage");
             string prefix = rootAndPath[0];
             if (prefix.Equals("local", StringComparison.InvariantCultureIgnoreCase))
                 this.locality = Locality.Local;
             else if (prefix.Equals("roaming", StringComparison.InvariantCultureIgnoreCase))
                 this.locality = Locality.Roaming;
             else
-                FatalError(String.Format("Invalid locality in path ({0}); use 'APPDATA {1} --help' for usage", prefix, GetCommandName()));
-            string suffix = rootAndPath.Length > 1 ? rootAndPath[1] : null;
-            this.path = suffix.IsEmpty() ? null : suffix;
+                FatalError($"Invalid locality in path ({prefix}); use 'APPDATA {GetCommandName()} --help' for usage");
+            string? suffix = rootAndPath.Length > 1 ? rootAndPath[1] : null;
+            this.path = String.IsNullOrEmpty(suffix) ? null : suffix;
         }
     }
 }
