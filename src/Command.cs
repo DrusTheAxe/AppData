@@ -149,7 +149,7 @@ namespace AppData
         static string Usage =
 @"USAGE: AppData <command> <packagefamilyname> [options...]
 Commands:
-  CLEAR | GET | SET | DELETE | IMPORT | EXPORT |
+  LIST | CLEAR | GET | SET | DELETE | IMPORT | EXPORT |
   PATH | QUOTA | SIGNALDATACHANGED | SIZE | VERSION
 
 Return Code:
@@ -160,6 +160,7 @@ For help on a specific command:
   AppData <command> --help
 
 Examples:
+  AppData LIST --help
   AppData CLEAR --help
   AppData GET --help
   AppData SET --help
