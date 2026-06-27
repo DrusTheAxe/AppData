@@ -11,9 +11,9 @@ namespace AppData
     {
         protected StreamWriter? writer;
 
-        protected SettingsWriter(Stream stream)
+        protected SettingsWriter(Stream stream, bool leaveOpen = false)
         {
-            this.writer = new StreamWriter(stream);
+            this.writer = new StreamWriter(stream, leaveOpen: leaveOpen);
         }
 
         public void Dispose()

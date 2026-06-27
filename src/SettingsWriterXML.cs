@@ -17,6 +17,11 @@ namespace AppData
         {
         }
 
+        public SettingsWriterXML(Stream stream, bool leaveOpen = false) :
+            base(stream, leaveOpen: leaveOpen)
+        {
+        }
+
         void Indent()
         {
             System.Diagnostics.Debug.Assert(this.indent >= 0);

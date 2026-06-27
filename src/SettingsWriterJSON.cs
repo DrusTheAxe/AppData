@@ -12,8 +12,8 @@ namespace AppData
         int indent = 0;
         string indentString = "";
 
-        public SettingsWriterJSON(Stream stream) :
-            base(stream)
+        public SettingsWriterJSON(Stream stream, bool leaveOpen = false) :
+            base(stream, leaveOpen)
         {
         }
 
