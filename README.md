@@ -1,28 +1,35 @@
-APPDATA.EXE README
-==================
+# APPDATA.EXE README
 
-OVERVIEW
---------
-APPDATA.EXE is a Windows command line application to access and manipulate
-[ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587), introduced in Windows 8.
-This is particularly useful if you develop applications, manage applications, or are just plain
-curious about what an application is storing on your behalf.
+## OVERVIEW
+
+APPDATA.EXE is a Windows command-line utility for accessing and managing
+[ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587).
+
+It supports the full ApplicationData feature set, from its introduction in Windows 8 through the
+[latest enhancements in Windows App SDK](https://github.com/microsoft/WindowsAppSDK/blob/main/specs/applicationdata/ApplicationData.md).
+
+APPDATA.EXE is designed for developers building MSIX packages, administrators managing packaged
+applications, and anyone curious about what packaged apps store on their behalf.
 
 Run with no parameters for help.
 
-This was inspired by practical needs over several long nights and weekends working on some package
-apps. The 'spiritual' inspiration for the technical approach is
+The tool was born out of practical necessity during many late nights and weekends troubleshooting
+packaged applications. Its technical design was heavily inspired by
 [REG.EXE](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/reg.mspx?mfr=true).
-Think of APPDATA.EXE is to ApplicationData as REG.EXE is to the Registry.
+
+Think of APPDATA.EXE to ApplicationData as REG.EXE is to the Registry.
 
 
-INSTALLATION
-------------
-APPDATA.EXE requires ApplicationData APIs, introduced for packaged apps in Windows 8 and Windows Server 2012.
+## INSTALLATION
 
-The development home for APPDATA.EXE is https://github.com/DrusTheAxe/AppData including full source code.
+APPDATA.EXE requires Windows 10.0.17763.0 (aka RS5) or newer.
 
 
-LICENSE
--------
+## SUPPORT
+
+The development and support home for APPDATA.EXE is https://github.com/DrusTheAxe/AppData.
+
+
+## LICENSE
+
 See LICENSE for details.
