@@ -9,7 +9,7 @@ namespace AppData
         static string Usage =
 @"USAGE: AppData SignalDataChanged <packagefamilyname> [options] - Fire the DataChanged event
 options:
-{0}
+
 EXAMPLES:
   appdata signaldatachanged contosso.games.solitaire_1234567890abc
 ";

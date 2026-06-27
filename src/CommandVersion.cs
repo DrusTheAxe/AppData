@@ -11,7 +11,7 @@ namespace AppData
         static string Usage =
 @"USAGE: AppData Version <packagefamilyname> [options] - Retrieve the version number
 options:
-{0}
+
 EXAMPLES:
   appdata version contosso.games.solitaire_1234567890abc
     Display the version of the application data

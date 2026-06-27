@@ -15,7 +15,7 @@ options:
   -a, --all       = All package types [default]
   -m, --main      = List main packages
   -o, --optional  = List optional packages
-{0}
+
 EXAMPLES:
   appdata list *network* --main
     Lists Main package families with application data and 'network' in their name

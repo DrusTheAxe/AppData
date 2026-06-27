@@ -16,7 +16,7 @@ options:
   -l, --local     = Local application data store
   -r, --roaming   = Roaming application data store
   -t, --temporary = Temporary application data store
-{0}
+
 EXAMPLES:
   appdata clear contosso.games.solitaire_1234567890abc --local
     Clears the local folder and settings

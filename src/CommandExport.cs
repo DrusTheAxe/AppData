@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using TrollCaveEnterprises;
 using Windows.Foundation.Collections;
@@ -39,7 +40,7 @@ options:
   --order:sorted    = Emit settings in sorted order
 
 Locality options:
-  --all             = All application data stores [Default]
+  --all             = All application data stores except machine [Default]
   --local           = Local application data stores (files and settings)
   --local:files     = Local application data files
   --local:settings  = Local application data settings
@@ -48,6 +49,7 @@ Locality options:
   --roaming:files   = Roaming application data files
   --roaming:settings= Roaming application data settings
   --temporary       = Temporary application data store
+  --machine         = Machine data store
 Any combination is supported, e.g. ""--local:settings --roaming:settings"" to export local and roaming settings. Append ""-"": to disable the option, e.g. ""--all --temporary-"" to export all except temporary data.
 
 7Z options (if --target:format=7Z):
@@ -61,7 +63,7 @@ ZIP options (if --target:format=ZIP):
   -9, --compress:small = Use optimal compression
   --direntries         = Add directory entries [Default]
   --nodirentries       = Do not add directory entries
-{0}
+
 EXAMPLES:
   appdata export contosso.games.solitaire_1234567890abc d:\temp\solitaire.zip
     Export all application data to d:\temp\solitaire.zip
@@ -103,6 +105,7 @@ EXAMPLES:
             Temporary = 0x0100,
             LocalCacheFiles = 0x1000,
             LocalCache = LocalCacheFiles,
+            Machine = 0x2000,
             All = Local | Roaming | Temporary | LocalCacheFiles
         };
         int locality = (int)Locality.All;
@@ -261,6 +264,16 @@ EXAMPLES:
                     this.locality &= (int)~LocalityValues[i];
                     return true;
                 }
+                else if (arg.Equals("--machine", StringComparison.InvariantCulture))
+                {
+                    this.locality |= (int)Locality.Machine;
+                    return true;
+                }
+                else if (arg.Equals("--machine-", StringComparison.InvariantCulture))
+                {
+                    this.locality &= (int)~Locality.Machine;
+                    return true;
+                }
             }
             return false;
         }
@@ -336,6 +349,9 @@ EXAMPLES:
                     FileSystemAddSettings(targetRoot, Locality.LocalSettings, appdata.LocalSettings);
                 if ((this.locality & (int)Locality.RoamingSettings) != 0)
                     FileSystemAddSettings(targetRoot, Locality.RoamingSettings, appdata.RoamingSettings);
+
+                if ((this.locality & (int)Locality.Machine) != 0)
+                    FileSystemAddFolder(targetRoot, Locality.Temporary, GetMachinePath(packageFamilyName));
             }
             catch (Exception ex)
             {
@@ -425,6 +441,12 @@ EXAMPLES:
                         currentLocality = "Settings:Roaming";
                         SevenZAddSettings(writer, Locality.RoamingSettings, appdata.RoamingSettings);
                     }
+
+                    if ((this.locality & (int)Locality.Machine) != 0)
+                    {
+                        currentLocality = "Temporary";
+                        writer.WriteAll(GetMachinePath(packageFamilyName), "*", SearchOption.AllDirectories);
+                    }
                 }
             }
             catch (Exception ex)
@@ -457,6 +479,9 @@ EXAMPLES:
                             ZipAddSettings(zip, Locality.LocalSettings, appdata.LocalSettings);
                         if ((this.locality & (int)Locality.RoamingSettings) != 0)
                             ZipAddSettings(zip, Locality.RoamingSettings, appdata.RoamingSettings);
+
+                        if ((this.locality & (int)Locality.Machine) != 0)
+                            ZipAddFolder(zip, Locality.Machine, GetMachinePath(packageFamilyName));
                     }
                 }
             }
