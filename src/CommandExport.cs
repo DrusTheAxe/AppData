@@ -31,7 +31,7 @@ options:
   --target:format=FMT= Export format. Valid formats are: 7Z, FILESYSTEM, ZIP
                          [Default=ZIP]
   --settings:format=FMT = Export format for settings. Valid formats are:
-                            XML, JSON [Default=XML]
+                            XML, JSON [Default=JSON]
   --overwrite:prompt= Prompt to confirm overwriting an existing file [Default]
   --overwrite:yes   = Overwrite an existing file
   --overwrite:no    = Never overwrite an existing file
@@ -87,7 +87,7 @@ EXAMPLES:
         }
         TargetFormat targetFormat = TargetFormat.Zip;
 
-        SettingsFormat settingsFormat = SettingsFormat.XML;
+        SettingsFormat settingsFormat = SettingsFormat.JSON;
 
         Overwrite overwrite = Overwrite.Prompt;
 
