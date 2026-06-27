@@ -30,7 +30,7 @@ options:
                         UINT64[], SINGLE[], DOUBLE[], DATETIME[], TIMESPAN[],
                         GUID[], POINT[], SIZE[], RECT[]
   --value=KEY       = Get a specific application data value
-{0}
+
 EXAMPLES:
   appdata get contosso.games.solitaire_1234567890abc local\people
     Displays all values in the Local\people container

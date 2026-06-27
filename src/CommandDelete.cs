@@ -19,7 +19,7 @@ options:
   --value=KEY     = Delete a specific application data value
   --value:all     = Delete all values in this container
   --force         = Force the deletion without prompt
-{0}
+
 EXAMPLES:
   appdata delete contosso.games.solitaire_1234567890abc local\configuration\startup
       Deletes the container local\configuration\startup and all its subcontainers and values

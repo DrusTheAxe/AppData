@@ -25,7 +25,7 @@ options:
   --overwrite:prompt= Prompt to confirm overwriting an existing value [Default]
   --overwrite:yes   = Overwrite an existing value
   --overwrite:no    = Never overwrite an existing value
-{0}
+
 EXAMPLES:
   appdata set contosso.games.solitaire_1234567890abc local\configuration\startup
       Adds a container local\configuration\startup

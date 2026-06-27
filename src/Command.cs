@@ -5,6 +5,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -301,6 +302,19 @@ Examples:
             {
                 FatalError(ex);
             }
+        }
+
+        protected string GetMachinePath(string packageFamilyName)
+        {
+            // Per https://github.com/microsoft/WindowsAppSDK/blob/main/specs/applicationdata/ApplicationData.md#34-per-machine-data-store
+            // %ProgramData%\Microsoft\Windows\AppRepository\Families\ApplicationData\...packagefamilyname...\Machine
+
+            string programData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            var path = Path.Combine(programData, "Microsoft\\Windows\\AppRepository\\Families\\ApplicationData", packageFamilyName, "Machine");
+            if (Directory.Exists(path))
+                return path;
+            else
+                return null;
         }
     }
 }

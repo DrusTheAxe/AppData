@@ -9,7 +9,7 @@ namespace AppData
         static string Usage =
 @"USAGE: AppData Quota <packagefamilyname> [options] - Retrieve the roaming storage quota
 options:
-{0}
+
 EXAMPLES:
   appdata quota contosso.games.solitaire_1234567890abc
     Display the maximum size of roaming data the can be synchronized to the cloud

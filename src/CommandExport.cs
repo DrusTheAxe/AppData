@@ -1,11 +1,18 @@
 ﻿// Copyright (c) Howard Kapustein and Contributors.
 // Licensed under the MIT License.
 
+using SharpCompress.Common;
+using SharpCompress.Compressors.LZMA;
+using SharpCompress.Writers;
+using SharpCompress.Writers.SevenZip;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection.PortableExecutable;
+using System.Text;
 using TrollCaveEnterprises;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -22,10 +29,10 @@ where:
                          This is a directory, if --target:format=FILESYSTEM
                          This is a filename, if --target:format=ZIP
 options:
-  --target:format=FMT= Export format. Valid formats are: FILESYSTEM, ZIP
+  --target:format=FMT= Export format. Valid formats are: 7Z, FILESYSTEM, ZIP
                          [Default=ZIP]
   --settings:format=FMT = Export format for settings. Valid formats are:
-                            XML, JSON [Default=XML]
+                            XML, JSON [Default=JSON]
   --overwrite:prompt= Prompt to confirm overwriting an existing file [Default]
   --overwrite:yes   = Overwrite an existing file
   --overwrite:no    = Never overwrite an existing file
@@ -33,7 +40,7 @@ options:
   --order:sorted    = Emit settings in sorted order
 
 Locality options:
-  --all             = All application data stores [Default]
+  --all             = All application data stores except machine [Default]
   --local           = Local application data stores (files and settings)
   --local:files     = Local application data files
   --local:settings  = Local application data settings
@@ -42,7 +49,12 @@ Locality options:
   --roaming:files   = Roaming application data files
   --roaming:settings= Roaming application data settings
   --temporary       = Temporary application data store
+  --machine         = Machine data store
 Any combination is supported, e.g. ""--local:settings --roaming:settings"" to export local and roaming settings. Append ""-"": to disable the option, e.g. ""--all --temporary-"" to export all except temporary data.
+
+7Z options (if --target:format=7Z):
+  --dictionary=N    = Dictionary size (bytes, optional suffix: K, M, G) [Default=64M]
+  --fastbytes=N     = Number of fast bytes, N=5-273 [Default=64]
 
 ZIP options (if --target:format=ZIP):
   -0, --compress:none  = Use no compression
@@ -51,7 +63,7 @@ ZIP options (if --target:format=ZIP):
   -9, --compress:small = Use optimal compression
   --direntries         = Add directory entries [Default]
   --nodirentries       = Do not add directory entries
-{0}
+
 EXAMPLES:
   appdata export contosso.games.solitaire_1234567890abc d:\temp\solitaire.zip
     Export all application data to d:\temp\solitaire.zip
@@ -71,12 +83,13 @@ EXAMPLES:
 
         enum TargetFormat
         {
+            SevenZ,
             FileSystem,
             Zip
         }
         TargetFormat targetFormat = TargetFormat.Zip;
 
-        SettingsFormat settingsFormat = SettingsFormat.XML;
+        SettingsFormat settingsFormat = SettingsFormat.JSON;
 
         Overwrite overwrite = Overwrite.Prompt;
 
@@ -92,6 +105,7 @@ EXAMPLES:
             Temporary = 0x0100,
             LocalCacheFiles = 0x1000,
             LocalCache = LocalCacheFiles,
+            Machine = 0x2000,
             All = Local | Roaming | Temporary | LocalCacheFiles
         };
         int locality = (int)Locality.All;
@@ -104,6 +118,9 @@ EXAMPLES:
 
         CompressionLevel compressionLevel = CompressionLevel.Optimal;
         bool zipDirectoryEntries = true;
+
+        int sevenZDictionarySize = 64 * 1024 * 1024;
+        int sevenZFastBytes = 64;
 
         public CommandExport(string[] options)
         {
@@ -120,7 +137,11 @@ EXAMPLES:
 
         public override void Parse(string arg)
         {
-            if (arg.Equals("--target:format=filesystem", StringComparison.InvariantCultureIgnoreCase))
+            if (arg.Equals("--target:format=7z", StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.targetFormat = TargetFormat.SevenZ;
+            }
+            else if (arg.Equals("--target:format=filesystem", StringComparison.InvariantCultureIgnoreCase))
             {
                 this.targetFormat = TargetFormat.FileSystem;
             }
@@ -155,6 +176,40 @@ EXAMPLES:
             else if (arg.Equals("--order:sorted", StringComparison.InvariantCultureIgnoreCase))
             {
                 this.order = Order.Sorted;
+            }
+            else if (arg.StartsWith("--dictionary=", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var value = arg.AsSpan("--dictionary=".Length);
+                uint units = 1; // Bytes
+                if (value.EndsWith('K'))
+                {
+                    units = 1024;
+                }
+                else if (value.EndsWith('M'))
+                {
+                    units = 1024 * 1024;
+                }
+                else if (value.EndsWith('G'))
+                {
+                    units = 1024 * 1024 * 1024;
+                }
+                if (units > 1)
+                {
+                    value = value.Slice(0, value.Length - 1);
+                }
+                uint n = 0;
+                if (uint.TryParse(value, out n))
+                {
+                    sevenZDictionarySize = (int)(n * units);
+                }
+            }
+            else if (arg.StartsWith("--fastbytes=", StringComparison.InvariantCultureIgnoreCase))
+            {
+                uint n = 0;
+                if (uint.TryParse(arg.AsSpan("--fastbytes=".Length), out n))
+                {
+                    sevenZFastBytes = (int)n;
+                }
             }
             else if (arg.Equals("-0", StringComparison.InvariantCultureIgnoreCase) || arg.Equals("--compress:none", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -209,6 +264,16 @@ EXAMPLES:
                     this.locality &= (int)~LocalityValues[i];
                     return true;
                 }
+                else if (arg.Equals("--machine", StringComparison.InvariantCulture))
+                {
+                    this.locality |= (int)Locality.Machine;
+                    return true;
+                }
+                else if (arg.Equals("--machine-", StringComparison.InvariantCulture))
+                {
+                    this.locality &= (int)~Locality.Machine;
+                    return true;
+                }
             }
             return false;
         }
@@ -221,8 +286,10 @@ EXAMPLES:
             OpenApplicationData();
 
             PrintLineVerbose("execute");
-            System.Diagnostics.Debug.Assert(this.targetFormat == TargetFormat.FileSystem || this.targetFormat == TargetFormat.Zip);
-            if (this.targetFormat == TargetFormat.FileSystem)
+            System.Diagnostics.Debug.Assert(this.targetFormat == TargetFormat.SevenZ || this.targetFormat == TargetFormat.FileSystem || this.targetFormat == TargetFormat.Zip);
+            if (this.targetFormat == TargetFormat.SevenZ)
+                ExportTo7zFile();
+            else if (this.targetFormat == TargetFormat.FileSystem)
                 ExportToFileSystem();
             else if (this.targetFormat == TargetFormat.Zip)
                 ExportToZipFile();
@@ -282,6 +349,105 @@ EXAMPLES:
                     FileSystemAddSettings(targetRoot, Locality.LocalSettings, appdata.LocalSettings);
                 if ((this.locality & (int)Locality.RoamingSettings) != 0)
                     FileSystemAddSettings(targetRoot, Locality.RoamingSettings, appdata.RoamingSettings);
+
+                if ((this.locality & (int)Locality.Machine) != 0)
+                    FileSystemAddFolder(targetRoot, Locality.Temporary, GetMachinePath(packageFamilyName));
+            }
+            catch (Exception ex)
+            {
+                FatalError(ex);
+            }
+        }
+
+        private void CheckIfFileExists(string filename)
+        {
+            if (File.Exists(filename))
+            {
+                if (this.overwrite == Overwrite.No)
+                {
+                    FatalError("The operation was canceled (--overwrite:no).");
+                }
+                else if (this.overwrite == Overwrite.Prompt)
+                {
+                    bool ok = PromptForOverwrite(filename);
+                    if (!ok)
+                        FatalError("The operation was canceled by the user.");
+                }
+            }
+        }
+
+        private void ReportProgress(ProgressReport r, string locality)
+        {
+            if (Console.IsOutputRedirected)
+                Console.WriteLine($"\n{locality}: {r.EntryPath}");
+            else
+                Console.Error.Write($"\r\x1b[K{locality}: {r.EntryPath} {r.PercentComplete:F0}%   ");
+        }
+
+        public void ExportTo7zFile()
+        {
+            CheckIfFileExists(this.target);
+
+            try
+            {
+                PrintLineVerbose($"Creating {this.target}");
+                using (FileStream stream = new FileStream(this.target, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    string currentLocality = "";
+                    using var writer = WriterFactory.OpenWriter(stream, SharpCompress.Common.ArchiveType.SevenZip,
+                        new SevenZipWriterOptions(CompressionType.LZMA2)
+                        {
+                            CompressionLevel = 0,   // Per docs: Compression type LZMA2 does not support configurable compression levels. Use 0
+                            CompressHeader = true,
+                            LzmaProperties = new LzmaEncoderProperties(false, sevenZDictionarySize, sevenZFastBytes),
+                            Progress = new Progress<ProgressReport>(r => ReportProgress(r, currentLocality))
+                        });
+                    if ((this.locality & (int)Locality.LocalFiles) != 0)
+                    {
+                        currentLocality = "Local";
+                        writer.WriteAll(appdata.LocalFolder.Path, "*", SearchOption.AllDirectories);
+                    }
+                    if ((this.locality & (int)Locality.LocalCacheFiles) != 0)
+                    {
+                        currentLocality = "LocalCache";
+                        writer.WriteAll(appdata.LocalCacheFolder.Path, "*", SearchOption.AllDirectories);
+                    }
+                    if ((this.locality & (int)Locality.RoamingFiles) != 0)
+                    {
+                        currentLocality = "Roaming";
+                        writer.WriteAll(appdata.RoamingFolder.Path, "*", SearchOption.AllDirectories);
+                    }
+                    if ((this.locality & (int)Locality.Temporary) != 0)
+                    {
+                        currentLocality = "Temporary";
+                        writer.WriteAll(appdata.TemporaryFolder.Path, "*", SearchOption.AllDirectories);
+                    }
+
+                    if ((this.locality & (int)Locality.LocalSettings) != 0)
+                    {
+                        if (!Console.IsOutputRedirected)
+                        {
+                            Console.WriteLine();
+                        }
+                        currentLocality = "Settings:Local";
+                        SevenZAddSettings(writer, Locality.LocalSettings, appdata.LocalSettings);
+                    }
+                    if ((this.locality & (int)Locality.RoamingSettings) != 0)
+                    {
+                        if (!Console.IsOutputRedirected)
+                        {
+                            Console.WriteLine();
+                        }
+                        currentLocality = "Settings:Roaming";
+                        SevenZAddSettings(writer, Locality.RoamingSettings, appdata.RoamingSettings);
+                    }
+
+                    if ((this.locality & (int)Locality.Machine) != 0)
+                    {
+                        currentLocality = "Temporary";
+                        writer.WriteAll(GetMachinePath(packageFamilyName), "*", SearchOption.AllDirectories);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -291,22 +457,12 @@ EXAMPLES:
 
         public void ExportToZipFile()
         {
-            if (File.Exists(this.target))
-            {
-                if (this.overwrite == Overwrite.No)
-                    FatalError("The operation was canceled (--overwrite:no).");
-                else if (this.overwrite == Overwrite.Prompt)
-                {
-                    bool ok = PromptForOverwrite(this.target);
-                    if (!ok)
-                        FatalError("The operation was canceled by the user.");
-                }
-            }
+            CheckIfFileExists(this.target);
 
             try
             {
                 PrintLineVerbose($"Creating {this.target}");
-                using (FileStream zipFileStream = new FileStream(this.target, FileMode.Create, FileAccess.Write, FileShare.Write | FileShare.Delete))
+                using (FileStream zipFileStream = new FileStream(this.target, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
                     using (ZipArchive zip = new ZipArchive(zipFileStream, ZipArchiveMode.Create))
                     {
@@ -323,6 +479,9 @@ EXAMPLES:
                             ZipAddSettings(zip, Locality.LocalSettings, appdata.LocalSettings);
                         if ((this.locality & (int)Locality.RoamingSettings) != 0)
                             ZipAddSettings(zip, Locality.RoamingSettings, appdata.RoamingSettings);
+
+                        if ((this.locality & (int)Locality.Machine) != 0)
+                            ZipAddFolder(zip, Locality.Machine, GetMachinePath(packageFamilyName));
                     }
                 }
             }
@@ -435,19 +594,30 @@ EXAMPLES:
             return countValues;
         }
 
-        private uint ZipAddSettings(ZipArchive zip, Locality locality, ApplicationDataContainer root)
+        private void SevenZAddSettings(IWriter writer, Locality locality, ApplicationDataContainer root)
+        {
+            PrintLine($"Scanning {locality}");
+
+            using var stream = new MemoryStream();
+            using (SettingsWriter settingsWriter = CreateSettingsWriter(stream, leaveOpen: true))
+            {
+                WriteSettings(settingsWriter, locality, root);
+            }
+            stream.Position = 0;
+            //using var streamReader = new StreamReader(stream);
+            writer.Write(locality.ToString() + "." + this.settingsFormat.ToString().ToLowerInvariant(), stream, DateTime.UtcNow);
+        }
+
+        private void ZipAddSettings(ZipArchive zip, Locality locality, ApplicationDataContainer root)
         {
             PrintLine($"Scanning {locality}");
 
             var entry = zip.CreateEntry(locality.ToString() + "." + this.settingsFormat.ToString().ToLowerInvariant(), this.compressionLevel);
 
-            uint countValues = 0;
             using (SettingsWriter writer = CreateSettingsWriter(entry.Open()))
             {
                 WriteSettings(writer, locality, root);
             }
-
-            return countValues;
         }
 
         private void WriteSettings(SettingsWriter writer, Locality locality, ApplicationDataContainer root)
@@ -459,18 +629,18 @@ EXAMPLES:
             writer.End();
         }
 
-        private SettingsWriter CreateSettingsWriter(Stream stream)
+        private SettingsWriter CreateSettingsWriter(Stream stream, bool leaveOpen = false)
         {
             switch (this.settingsFormat)
             {
-                case SettingsFormat.XML: return new SettingsWriterXML(stream);
-                case SettingsFormat.JSON: return new SettingsWriterJSON(stream);
+                case SettingsFormat.XML: return new SettingsWriterXML(stream, leaveOpen: leaveOpen);
+                case SettingsFormat.JSON: return new SettingsWriterJSON(stream, leaveOpen: leaveOpen);
                 default: System.Diagnostics.Debug.Fail("This can never happen: Unknown order"); return null;
             }
         }
 
         private uint WalkSettingsContainer(SettingsWriter writer, ApplicationDataContainer container, bool isLastAtThisNestingLevel)
-        {
+       {
             if (container.Values.Count == 0 && container.Containers.Count == 0)
                 return 0;
 

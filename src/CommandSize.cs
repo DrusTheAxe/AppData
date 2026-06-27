@@ -22,6 +22,7 @@ options:
   --local:files      = Local application data files
   --local:settings   = Local application data settings
   --localcache:files = LocalCache application data files
+  --machine          = Machine application data files
   --roaming          = Roaming application data store (files and settings)
   --roaming:files    = Roaming application data files
   --roaming:settings = Roaming application data settings
@@ -33,7 +34,7 @@ options:
   --format:list      = Display results in list format
   --format:table     = Display results in table format [default]
 Any combination is supported, e.g. ""--local:settings --roaming:settings"" to export local and roaming settings. Append ""-"": to disable the option, e.g. ""--all --temporary-"" to export all except temporary data.
-{0}
+
 EXAMPLES:
   appdata size contosso.games.solitaire_1234567890abc --local:files
     Display the size of the local folder
@@ -55,7 +56,8 @@ appdata size contosso.games.solitaire_1234567890abc --all --local:settings- --ro
             Temporary = 0x0100,
             LocalCacheFiles = 0x1000,
             LocalCache = LocalCacheFiles,
-            All = Local | Roaming | Temporary | LocalCacheFiles,
+            Machine = 0x2000,
+            All = Local | Roaming | Temporary | LocalCacheFiles | Machine,
             None = 0
         };
         Locality locality = Locality.None;
@@ -195,7 +197,8 @@ appdata size contosso.games.solitaire_1234567890abc --all --local:settings- --ro
             "--local", "--local:files", "--local:settings",
             "--roaming", "--roaming:files", "--roaming:settings",
             "--temporary",
-            "--localcache:files" };
+            "--localcache:files",
+            "--machine" };
         private static readonly Locality[] LocalityValues = new Locality[]{ Locality.All,
             Locality.Local, Locality.LocalFiles, Locality.LocalSettings,
             Locality.Roaming, Locality.RoamingFiles, Locality.RoamingSettings,
@@ -245,10 +248,18 @@ appdata size contosso.games.solitaire_1234567890abc --all --local:settings- --ro
                 SettingUsage(appdata.LocalSettings, "Local");
             if ((this.locality & Locality.RoamingSettings) == Locality.RoamingSettings)
                 SettingUsage(appdata.RoamingSettings, "Roaming");
+
+            if ((this.locality & Locality.Machine) == Locality.Machine)
+                FileUsage(GetMachinePath(packageFamilyName), "Machine");
         }
 
         private void FileUsage(string path, string title)
         {
+            if (path == null)
+            {
+                return;
+            }
+
             ulong dirCount = 0;
             ulong fileCount = 0;
             ulong fileSize = 0;
