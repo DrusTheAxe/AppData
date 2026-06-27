@@ -8,14 +8,16 @@
     <readme>docs\README.md</readme>
     <authors>Howard Kapustein</authors>
     <summary>Command line application to access and manipulate ApplicationData</summary>
-    <description>APPDATA.EXE is a Windows command line application to access and manipulate [ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587), introduced in Windows 8. This is particularly useful if you develop applications, manage applications, or are just plain curious about what an application is storing on your behalf.
+    <description>APPDATA.EXE is a Windows command line application to
+    access and manipulate
+    [ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587). All ApplicationData features are supported from its inception in Win8 through its [latest enhancements via Windows App SDK](https://github.com/microsoft/WindowsAppSDK/blob/main/specs/applicationdata/ApplicationData.md). This is particularly useful if you develop MSIX packages, manage MSIX packages, or are just plain curious about what an packaged apps are storing on your behalf.
 
 Run with no parameters for help.
 
 This was inspired by practical needs over several long nights and weekends working on some package apps. The 'spiritual' inspiration for the technical approach is [REG.EXE](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/reg.mspx?mfr=true). Think of APPDATA.EXE is to ApplicationData as REG.EXE is to the Registry.</description>
     <projectUrl>https://github.com/DrusTheAxe/AppData</projectUrl>
     <license type="expression">MIT</license>
-    <tags>admin ApplicationData appdata dev LocalFolder LocalCacheFolder LocalSettings TemporaryFolder MSIX</tags>
+    <tags>admin ApplicationData appdata dev LocalFolder LocalCacheFolder LocalSettings TemporaryFolder MachineFolder MSIX</tags>
     <copyright>Copyright (C) Howard Kapustein</copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <repository type="git" url="https://github.com/DrusTheAxe/AppData" branch="main" />
