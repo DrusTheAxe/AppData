@@ -1,21 +1,29 @@
 <?xml version="1.0"?>
 <Package
    xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
    xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
    xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+   xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+   xmlns:uap17="http://schemas.microsoft.com/appx/manifest/uap/windows10/17"
    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
    xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
-   IgnorableNamespaces="uap uap3 uap5 rescap desktop">
+   IgnorableNamespaces="uap uap3 uap5 uap10 uap17 rescap desktop mp">
+  <mp:PhoneIdentity PhoneProductId="B280B5E1-C4E9-4d9e-82C2-B9E04A7B8604" PhonePublisherId="dd3c53fb-8d59-4d08-ac7c-cf0daff6b998" />
   <Identity Name="APPDATA.EXE"
     ProcessorArchitecture="neutral"
-    Publisher="CN=Troll Cave Enterprises"
+    Publisher="CN=3E30C666-25E6-43DE-85CB-AE8C73750032"
     Version="3.0.0.0" />
   <Properties>
     <DisplayName>APPDATA.EXE</DisplayName>
     <PublisherDisplayName>Troll Cave Enterprises</PublisherDisplayName>
     <Description>Building a better tomorrow &lt;del&gt;tomorrow&lt;/del&gt; today</Description>
     <Logo>appdata-100x100.png</Logo>
+    <uap10:PackageIntegrity>
+      <uap10:Content Enforcement="on"/>
+    </uap10:PackageIntegrity>
+    <uap17:UpdateWhileInUse>defer</uap17:UpdateWhileInUse>
   </Properties>
   <Resources>
     <Resource Language="en-us" />
