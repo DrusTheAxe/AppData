@@ -33,3 +33,7 @@ The development and support home for APPDATA.EXE is https://github.com/DrusTheAx
 ## LICENSE
 
 See LICENSE for details.
+
+## PRIVACY
+
+See https://github.com/DrusTheAxe/AppData/blob/main/PRIVACY.md for details.
