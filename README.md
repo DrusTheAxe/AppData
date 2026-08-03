@@ -19,20 +19,17 @@ packaged applications. Its technical design was heavily inspired by
 
 Think of APPDATA.EXE to ApplicationData as REG.EXE is to the Registry.
 
-
 ## INSTALLATION
 
 APPDATA.EXE requires Windows 10.0.17763.0 (aka RS5) or newer.
-
 
 ## SUPPORT
 
 The development and support home for APPDATA.EXE is https://github.com/DrusTheAxe/AppData.
 
-
 ## LICENSE
 
-See LICENSE for details.
+See [LICENSE](https://github.com/DrusTheAxe/AppData/blob/main/LICENSE) for details.
 
 ## PRIVACY
 
