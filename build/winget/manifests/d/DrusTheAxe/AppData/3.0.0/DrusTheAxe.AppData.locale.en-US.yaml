@@ -1,0 +1,48 @@
+# Created using wingetcreate 1.12.13.0
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
+
+PackageIdentifier: DrusTheAxe.AppData
+PackageVersion: 3.0.0
+PackageLocale: en-US
+Publisher: Troll Cave Enterprises
+PublisherUrl: https://github.com/DrusTheAxe/
+PublisherSupportUrl: https://github.com/DrusTheAxe/AppData/
+Author: Howard Kapustein
+PackageName: APPDATA.EXE
+PackageUrl: https://github.com/DrusTheAxe/AppData
+License: MIT License
+LicenseUrl: https://github.com/DrusTheAxe/AppData/blob/main/LICENSE
+Copyright: Copyright (C) Howard Kapustein and Contributors
+ShortDescription: Command line application to access and manipulate ApplicationData
+Description: |
+ APPDATA.EXE is a Windows command line application to access and manipulate [ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587), introduced in Windows 8. This is particularly useful if you develop applications, manage applications, or are just plain curious about what an application is storing on your behalf.
+
+ Run with no parameters for help.
+
+ This was inspired by practical needs over several long nights and weekends working on some package apps. The 'spiritual' inspiration for the technical approach is [REG.EXE](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/reg.mspx?mfr=true). Think of APPDATA.EXE is to ApplicationData as REG.EXE is to the Registry.
+Moniker: appdata
+Tags:
+- ApplicationData
+- admin
+- appdata
+- dev
+- LocalFolder
+- LocalPath
+- LocalSettings
+- LoclCacheFolder
+- LoclCachePath
+- MachineFolder
+- MachinePath
+- TemporaryFolder
+- TemporaryPath
+- MSIX
+- APPX
+ReleaseNotes: https://github.com/DrusTheAxe/AppData/releases/tag/3.0.0
+ReleaseNotesUrl: https://github.com/DrusTheAxe/AppData/releases/tag/3.0.0
+Documentations:
+- DocumentLabel: README.html
+  DocumentUrl: https://github.com/DrusTheAxe/AppDAta/README.html
+- DocumentLabel: README.md
+  DocumentUrl: https://github.com/DrusTheAxe/AppData/README.md
+ManifestType: defaultLocale
+ManifestVersion: 1.12.0
