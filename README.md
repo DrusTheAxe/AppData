@@ -36,4 +36,4 @@ See LICENSE for details.
 
 ## PRIVACY
 
-See https://github.com/DrusTheAxe/AppData/blob/main/PRIVACY.md for details.
+See [PRIVACY.md](https://github.com/DrusTheAxe/AppData/blob/main/PRIVACY.md) for details.
