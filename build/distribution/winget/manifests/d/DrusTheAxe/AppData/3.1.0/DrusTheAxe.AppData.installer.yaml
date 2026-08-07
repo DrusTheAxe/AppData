@@ -1,0 +1,14 @@
+# Created using wingetcreate 1.12.13.0
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
+
+PackageIdentifier: DrusTheAxe.AppData
+PackageVersion: 3.1.0
+InstallerType: msix
+PackageFamilyName: 37849TrollCaveEnterprises.APPDATA.EXE_r91mwp1sztvzy
+Installers:
+- Architecture: neutral
+  InstallerUrl: https://github.com/DrusTheAxe/AppData/releases/download/3.1.0/AppData-3.1.0.msix
+  InstallerSha256: <sha256 of the .msix/.msixbundle>
+  SignatureSha256: <sha256 of AppxSignature.p7x inside the package>
+ManifestType: installer
+ManifestVersion: 1.12.0

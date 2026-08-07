@@ -14,17 +14,24 @@
     <PublishAot>false</PublishAot>
 
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+  <PropertyGroup Condition="'$(PlatformTarget)'=='AnyCPU'">
     <SelfContained>false</SelfContained>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)'!='AnyCPU'">
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  <PropertyGroup Condition="'$(PlatformTarget)'!='AnyCPU'">
+    <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
     <PublishTrimmed>true</PublishTrimmed>
     <TrimMode>partial</TrimMode>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>$(PublishSingleFile)</EnableCompressionInSingleFile>
+
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+    <ReadyToRunEmitSymbols>false</ReadyToRunEmitSymbols>
     <!-- <CsWinRTExcludes>Windows.UI;Windows.Media;Windows.Graphics;Windows.Devices.Sensors</CsWinRTExcludes> -->
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)'!='AnyCPU' and '$(Configuration)'=='Release'">
+  <PropertyGroup Condition="'$(PlatformTarget)'!='AnyCPU' and '$(Configuration)'=='Release'">
     <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
   </PropertyGroup>
 
@@ -34,15 +41,6 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <!-- Single file -->
-    <PublishSingleFile>true</PublishSingleFile>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <EnableCompressionInSingleFile>$(PublishSingleFile)</EnableCompressionInSingleFile>
-
-    <!-- R2R still works -->
-    <PublishReadyToRun>true</PublishReadyToRun>
-    <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
-    <ReadyToRunEmitSymbols>false</ReadyToRunEmitSymbols>
 
     <!-- Size wins -->
     <InvariantGlobalization>true</InvariantGlobalization>
@@ -67,7 +65,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+  <PropertyGroup Condition="'$(PlatformTarget)'=='AnyCPU'">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='x64'">
   </PropertyGroup>

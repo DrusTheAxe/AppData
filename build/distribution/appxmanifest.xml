@@ -14,7 +14,7 @@
   <Identity Name="37849TrollCaveEnterprises.APPDATA.EXE"
     ProcessorArchitecture="neutral"
     Publisher="CN=3E30C666-25E6-43DE-85CB-AE8C73750032"
-    Version="3.0.0.0" />
+    Version="3.1.0.0" />
   <Properties>
     <DisplayName>APPDATA.EXE</DisplayName>
     <PublisherDisplayName>Troll Cave Enterprises</PublisherDisplayName>

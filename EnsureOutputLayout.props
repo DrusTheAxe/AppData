@@ -14,6 +14,7 @@
          but we need it early to ensure our output directories are formatted consistently -->
     <PlatformTarget>$(Platform)</PlatformTarget>
     <PlatformTarget Condition="$(Platform) == 'Win32'">x86</PlatformTarget>
+    <PlatformTarget Condition="$(Platform) == 'Any CPU'">AnyCPU</PlatformTarget>
 
     <!-- Use PlatformTarget instead of Platform to keep things more consistent (avoid 'Win32' as a build output) -->
     <BaseOutputPath>$(RepoRoot)\bin\$(Configuration)\$(PlatformTarget)\</BaseOutputPath>

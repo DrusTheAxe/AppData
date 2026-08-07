@@ -304,7 +304,7 @@ Examples:
             }
         }
 
-        protected string GetMachinePath(string packageFamilyName)
+        protected string? GetMachinePath(string packageFamilyName)
         {
             // Per https://github.com/microsoft/WindowsAppSDK/blob/main/specs/applicationdata/ApplicationData.md#34-per-machine-data-store
             // %ProgramData%\Microsoft\Windows\AppRepository\Families\ApplicationData\...packagefamilyname...\Machine

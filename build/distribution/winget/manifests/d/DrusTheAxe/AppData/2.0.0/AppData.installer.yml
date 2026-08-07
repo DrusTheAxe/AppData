@@ -1,0 +1,30 @@
+# Created using wingetcreate 1.2.5.0
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.4.0.schema.json
+
+PackageIdentifier:      DrusTheAxe.AppData
+PackageVersion:         2.0.0
+ReleaseDate:            2023-05-08
+Installers:
+- InstallerUrl:         https://github.com/DrusTheAxe/AppData/releases/download/2.0.0/AppData-2.0.0.zip
+  Architecture:         x64
+  InstallerType:        zip
+  NestedInstallerType:  portable
+  NestedInstallerFiles:
+  - RelativeFilePath:   appdata.exe
+  InstallerSha256:      7717bd116f15e6debfc581e6bde36ec8854e60eced1c9cb5c5496a7f640af0f3
+- InstallerUrl:         https://github.com/DrusTheAxe/AppData/releases/download/2.0.0/AppData-2.0.0.zip
+  Architecture:         x86
+  InstallerType:        zip
+  NestedInstallerType:  portable
+  NestedInstallerFiles:
+  - RelativeFilePath:   appdata.exe
+  InstallerSha256:      7717bd116f15e6debfc581e6bde36ec8854e60eced1c9cb5c5496a7f640af0f3
+- InstallerUrl:         https://github.com/DrusTheAxe/AppData/releases/download/2.0.0/AppData-2.0.0.zip
+  Architecture:         arm64
+  InstallerType:        zip
+  NestedInstallerType:  portable
+  NestedInstallerFiles:
+  - RelativeFilePath:   appdata.exe
+  InstallerSha256:      7717bd116f15e6debfc581e6bde36ec8854e60eced1c9cb5c5496a7f640af0f3
+ManifestType:           installer
+ManifestVersion:        1.4.0

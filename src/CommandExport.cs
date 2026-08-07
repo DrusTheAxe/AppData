@@ -444,8 +444,12 @@ EXAMPLES:
 
                     if ((this.locality & (int)Locality.Machine) != 0)
                     {
-                        currentLocality = "Temporary";
-                        writer.WriteAll(GetMachinePath(packageFamilyName), "*", SearchOption.AllDirectories);
+                        string? machinePath = GetMachinePath(packageFamilyName);
+                        if (machinePath != null)
+                        {
+                            currentLocality = "Temporary";
+                            writer.WriteAll(machinePath, "*", SearchOption.AllDirectories);
+                        }
                     }
                 }
             }
@@ -491,8 +495,13 @@ EXAMPLES:
             }
         }
 
-        private uint FileSystemAddFolder(string path, Locality locality, string source)
+        private uint FileSystemAddFolder(string path, Locality locality, string? source)
         {
+            if (source == null)
+            {
+                return 0;
+            }
+
             PrintLine($"Scanning {locality}");
 
             string? parent = Path.GetDirectoryName(source);
@@ -526,8 +535,13 @@ EXAMPLES:
             return count;
         }
 
-        private uint ZipAddFolder(ZipArchive zip, Locality locality, string source)
+        private uint ZipAddFolder(ZipArchive zip, Locality locality, string? source)
         {
+            if (source == null)
+            {
+                return 0;
+            }
+
             PrintLine($"Scanning {locality}");
 
             string? parent = Path.GetDirectoryName(source);

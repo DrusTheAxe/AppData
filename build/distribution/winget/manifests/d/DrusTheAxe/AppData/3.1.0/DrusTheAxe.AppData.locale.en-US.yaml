@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: DrusTheAxe.AppData
-PackageVersion: 3.0.0
+PackageVersion: 3.1.0
 PackageLocale: en-US
 Publisher: Troll Cave Enterprises
 PublisherUrl: https://github.com/DrusTheAxe/
@@ -37,8 +37,8 @@ Tags:
 - TemporaryPath
 - MSIX
 - APPX
-ReleaseNotes: https://github.com/DrusTheAxe/AppData/releases/tag/3.0.0
-ReleaseNotesUrl: https://github.com/DrusTheAxe/AppData/releases/tag/3.0.0
+ReleaseNotes: https://github.com/DrusTheAxe/AppData/releases/tag/3.1.0
+ReleaseNotesUrl: https://github.com/DrusTheAxe/AppData/releases/tag/3.1.0
 Documentations:
 - DocumentLabel: README.html
   DocumentUrl: https://github.com/DrusTheAxe/AppDAta/README.html

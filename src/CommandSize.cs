@@ -253,7 +253,7 @@ appdata size contosso.games.solitaire_1234567890abc --all --local:settings- --ro
                 FileUsage(GetMachinePath(packageFamilyName), "Machine");
         }
 
-        private void FileUsage(string path, string title)
+        private void FileUsage(string? path, string title)
         {
             if (path == null)
             {
