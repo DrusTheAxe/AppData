@@ -27,6 +27,9 @@ IF ERRORLEVEL 1 GoTo TheEnd
 CALL .\makemsix.cmd %VERSION% arm64
 IF ERRORLEVEL 1 GoTo TheEnd
 
+ECHO.
+ECHO IT'S ALIVE!!!
+
 GoTo TheEnd
 
 :Help

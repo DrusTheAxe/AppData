@@ -5,7 +5,7 @@ IF %1x == x GoTo Help
 
 SET VERSION=%1
 
-ECHO => MakeZIP Version=%VERSION%
+ECHO === MakeZIP Version=%VERSION% ===
 
 SET ROOTDIR=%~dp0..\..
 SET BINDIR=%ROOTDIR%\bin\Release\AnyCPU

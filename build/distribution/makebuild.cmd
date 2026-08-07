@@ -8,7 +8,7 @@ SET CONFIG="%1"
 SET ARCH="%2"
 IF %2 == AnyCPU SET ARCH=Any CPU
 
-ECHO => MakeBuild Configuration=%CONFIG% Architecture=%ARCH%
+ECHO === MakeBuild Configuration=%CONFIG% Architecture=%ARCH% ===
 
 CD /D %~dp0..\..
 

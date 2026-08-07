@@ -6,7 +6,7 @@ IF %1x == x GoTo Help
 SET VERSION="%1"
 SET ARCH="%2"
 
-ECHO => MakeMSIX Version=%VERSION% Architecture=%ARCH%
+ECHO === MakeMSIX Version=%VERSION% Architecture=%ARCH% ===
 
 SET ROOTDIR=%~dp0..\..
 SET BINDIR=%ROOTDIR%\bin\Release\AnyCPU

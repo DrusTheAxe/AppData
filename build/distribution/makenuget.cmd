@@ -5,7 +5,7 @@ IF %1x == x GoTo Help
 
 SET VERSION=%1
 
-ECHO => MakeNuget Version=%VERSION%
+ECHO === MakeNuget Version=%VERSION% ===
 
 SET ROOTDIR=%~dp0..\..
 SET BINDIR=%ROOTDIR%\bin\Release\AnyCPU
