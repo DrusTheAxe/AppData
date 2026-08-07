@@ -3,15 +3,17 @@ SETLOCAL
 
 IF %1x == x GoTo Help
 
-SET VER=%1
+SET VERSION=%1
 
-SET ROOTDIR=%~dp0\..
+ECHO => MakeNuget Version=%VERSION%
+
+SET ROOTDIR=%~dp0..\..
 SET BINDIR=%ROOTDIR%\bin\Release\AnyCPU
 SET TARGETDIR=%ROOTDIR%\Release
-SET TARGET=%TARGETDIR%\AppData-%VER%.nupkg
+SET TARGET=%TARGETDIR%\AppData-%VERSION%.nupkg
 
 IF "%NUGETEXE%" == "" SET NUGETEXE=C:\Util.W32\nuget\nuget.exe
-SET NUGETOPTS=pack AppData.nuspec -Version %VER% -BasePath %ROOTDIR% -OutputDirectory %TARGETDIR%
+SET NUGETOPTS=pack AppData.nuspec -Version %VERSION% -BasePath %ROOTDIR% -OutputDirectory %TARGETDIR%
 
 IF NOT EXIST %TARGETDIR% MD %TARGETDIR% 2>&1 >NUL
 IF EXIST %TARGET% DEL /Q %TARGET%

@@ -12,9 +12,9 @@
    IgnorableNamespaces="uap uap3 uap5 uap10 uap17 rescap desktop mp">
   <mp:PhoneIdentity PhoneProductId="B280B5E1-C4E9-4d9e-82C2-B9E04A7B8604" PhonePublisherId="dd3c53fb-8d59-4d08-ac7c-cf0daff6b998" />
   <Identity Name="37849TrollCaveEnterprises.APPDATA.EXE"
-    ProcessorArchitecture="neutral"
+    ProcessorArchitecture="$architecture$"
     Publisher="CN=3E30C666-25E6-43DE-85CB-AE8C73750032"
-    Version="3.1.0.0" />
+    Version="$version$.0" />
   <Properties>
     <DisplayName>APPDATA.EXE</DisplayName>
     <PublisherDisplayName>Troll Cave Enterprises</PublisherDisplayName>
