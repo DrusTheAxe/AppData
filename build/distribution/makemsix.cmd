@@ -9,7 +9,7 @@ SET ARCH="%2"
 ECHO === MakeMSIX Version=%VERSION% Architecture=%ARCH% ===
 
 SET ROOTDIR=%~dp0..\..
-SET BINDIR=%ROOTDIR%\bin\Release\AnyCPU
+SET BINDIR=%ROOTDIR%\bin\Release\%ARCH%
 SET TARGETDIR=%ROOTDIR%\Release
 SET TARGET=%TARGETDIR%\AppData-%VERSION%-%ARCH%.msix
 

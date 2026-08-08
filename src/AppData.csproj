@@ -39,6 +39,25 @@
     <TrimmerRootAssembly Include="Microsoft.Windows.SDK.NET" />
     <TrimmerRootAssembly Include="WinRT.Runtime" />
   </ItemGroup>
+<!-- Alternative replacing above ItemGroup but 7 errors and 16626 warnings :-(
+  <PropertyGroup>
+    <CsWinRTEmbedded>true</CsWinRTEmbedded>
+    <CsWinRTWindowsMetadata>10.0.17763.0</CsWinRTWindowsMetadata>
+    <CsWinRTIncludes>
+      Windows.Foundation;
+      Windows.Foundation.Collections;
+      Windows.Management.Core;
+      Windows.Management.Deployment;
+      Windows.Storage;
+      Windows.UI.StartScreen
+    </CsWinRTIncludes>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.CsWinRT"
+                      Version="2.3.1"
+                      PrivateAssets="all" />
+  </ItemGroup>
+-->
 
   <PropertyGroup>
 
