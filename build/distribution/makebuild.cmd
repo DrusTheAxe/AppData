@@ -8,14 +8,17 @@ SET CONFIG="%1"
 SET ARCH="%2"
 IF %2 == AnyCPU SET ARCH=Any CPU
 
+SET AOT=
+IF "%ARCH%" != "Any CPU" SET AOT=-p:UseAOT=true
+
 ECHO === MakeBuild Configuration=%CONFIG% Architecture=%ARCH% ===
 
 CD /D %~dp0..\..
 
 IF "%VisualStudioVersion%" != "18.0" CALL C:\Util\vc26vars64.bat
 
-ECHO dotnet publish AppData.sln -c %CONFIG% -p:Platform="%ARCH%"
-dotnet publish AppData.sln -c %CONFIG% -p:Platform="%ARCH%"
+ECHO dotnet publish AppData.sln -c %CONFIG% -p:Platform="%ARCH%" %AOT%
+dotnet publish AppData.sln -c %CONFIG% -p:Platform="%ARCH%" %AOT%
 IF ERRORLEVEL 1 GoTo TheEnd
 
 GoTo TheEnd

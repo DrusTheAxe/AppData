@@ -10,14 +10,21 @@
 
     <!-- AOT and SingleFile are mutually exclusive - pick one -->
     <!-- PublishAot=true: native binary, no JIT, no bundler, smaller but no WinRT projection support -->
-    <!-- PublishSingleFile=true: managed bundle, WinRT works, use this path -->
-    <PublishAot>false</PublishAot>
+    <!-- PublishSingleFile=true: managed bundle, WinRT works -->
+    <UseAOT Condition="('$(PlatformTarget)'!='AnyCPU') and ('$(UseAOT)' != 'true')">false</UseAOT>
+    <PublishAot>$(UseAOT)</PublishAot>
 
   </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformTarget)'=='AnyCPU'">
+  <PropertyGroup Condition="('$(PlatformTarget)'=='AnyCPU') or ('$(PublishAot)'!='true')">
     <SelfContained>false</SelfContained>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformTarget)'!='AnyCPU'">
+  <PropertyGroup Condition="('$(PlatformTarget)'!='AnyCPU') and ('$(PublishAot)'=='true')">
+    <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
+    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <SelfContained>true</SelfContained>
+  </PropertyGroup>
+  <PropertyGroup Condition="('$(PlatformTarget)'!='AnyCPU') and ('$(PublishAot)'!='true')">
     <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
     <PublishTrimmed>true</PublishTrimmed>
@@ -35,11 +42,13 @@
     <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
   </PropertyGroup>
 
+<!-- #1 Supposedly unnecessary for native builds
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Windows.SDK.NET" />
     <TrimmerRootAssembly Include="WinRT.Runtime" />
   </ItemGroup>
-<!-- Alternative replacing above ItemGroup but 7 errors and 16626 warnings :-(
+-->
+<!-- #2 Alternative replacing above ItemGroup but 7 errors and 16626 warnings :-(
   <PropertyGroup>
     <CsWinRTEmbedded>true</CsWinRTEmbedded>
     <CsWinRTWindowsMetadata>10.0.17763.0</CsWinRTWindowsMetadata>
@@ -58,9 +67,16 @@
                       PrivateAssets="all" />
   </ItemGroup>
 -->
+<!-- #3 Third Times The Charm -->
+  <ItemGroup Condition="'$(PublishAot)'=='true'">
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup Condition="('$(PublishAot)'!='true') and ('$(PlatformTarget)'!='AnyCPU')">
+    <TrimmerRootAssembly Include="Microsoft.Windows.SDK.NET" />
+    <TrimmerRootAssembly Include="WinRT.Runtime" />
+  </ItemGroup>
 
   <PropertyGroup>
-
     <!-- Size wins -->
     <InvariantGlobalization>true</InvariantGlobalization>
     <EventSourceSupport>false</EventSourceSupport>
