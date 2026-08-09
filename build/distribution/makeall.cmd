@@ -11,6 +11,8 @@ IF "%VisualStudioVersion%" != "18.0" CALL C:\Util\vc26vars64.bat
 
 CALL .\makebuild.cmd Release AnyCPU
 IF ERRORLEVEL 1 GoTo TheEnd
+CALL .\makebuild.cmd Release x86
+IF ERRORLEVEL 1 GoTo TheEnd
 CALL .\makebuild.cmd Release x64
 IF ERRORLEVEL 1 GoTo TheEnd
 CALL .\makebuild.cmd Release arm64

@@ -10,13 +10,14 @@ ECHO === MakeMSIX Version=%VERSION% Architecture=%ARCH% ===
 
 SET ROOTDIR=%~dp0..\..
 SET BINDIR=%ROOTDIR%\bin\Release\%ARCH%
+SET BINEXE=%BINDIR%\AppData\net10.0-windows10.0.17763.0\win-%ARCH%\native\appdata.exe
 SET TARGETDIR=%ROOTDIR%\Release
 SET TARGET=%TARGETDIR%\AppData-%VERSION%-%ARCH%.msix
 
 SET SCRATCH="%TEMP%\appxdata-temp-msix"
 IF EXIST %SCRATCH% RD /s/q %SCRATCH%
 MD %SCRATCH% 2>&1 >NUL
-COPY %BINDIR%\* %SCRATCH%\*
+COPY %BINEXE% %SCRATCH%\*
 COPY %ROOTDIR%\build\distribution\appxmanifest.xml %SCRATCH%\*
 pwsh.exe -NoProfile -Command "$p='%SCRATCH%\appxmanifest.xml'; $s=[IO.File]::ReadAllText($p); [IO.File]::WriteAllText($p,$s.Replace('$version$','%VERSION%').Replace('$architecture$','%ARCH%'))"
 COPY %ROOTDIR%\LICENSE %SCRATCH%\*

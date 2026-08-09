@@ -36,6 +36,8 @@
     <file src="src\appdata-64x64.png" target="images\" />
     <file src="LICENSE" target="docs\" />
     <file src="README.md" target="docs\" />
-    <file src="bin\Release\AnyCPU\*" target="tools\" />
+    <file src="bin\Release\x86\AppData\net10.0-windows10.0.17763.0\win-x86\publish\*" target="tools\x86" />
+    <file src="bin\Release\x64\AppData\net10.0-windows10.0.17763.0\win-x64\publish\*" target="tools\x64" />
+    <file src="bin\Release\arm64\AppData\net10.0-windows10.0.17763.0\win-arm64\publish\*" target="tools\arm64" />
   </files>
 </package>

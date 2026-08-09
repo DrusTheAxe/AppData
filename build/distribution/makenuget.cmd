@@ -11,9 +11,10 @@ SET ROOTDIR=%~dp0..\..
 SET BINDIR=%ROOTDIR%\bin\Release\AnyCPU
 SET TARGETDIR=%ROOTDIR%\Release
 SET TARGET=%TARGETDIR%\AppData-%VERSION%.nupkg
+SET NUSPEC=%~dp0AppData.nuspec
 
 IF "%NUGETEXE%" == "" SET NUGETEXE=C:\Util.W32\nuget\nuget.exe
-SET NUGETOPTS=pack AppData.nuspec -Version %VERSION% -BasePath %ROOTDIR% -OutputDirectory %TARGETDIR%
+SET NUGETOPTS=pack %NUSPEC% -Version %VERSION% -BasePath %ROOTDIR% -OutputDirectory %TARGETDIR%
 
 IF NOT EXIST %TARGETDIR% MD %TARGETDIR% 2>&1 >NUL
 IF EXIST %TARGET% DEL /Q %TARGET%
