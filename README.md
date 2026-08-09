@@ -1,6 +1,6 @@
 # APPDATA.EXE README
 
-## OVERVIEW
+## Overview
 
 APPDATA.EXE is a Windows command-line utility for accessing and managing
 [ApplicationData](http://msdn.microsoft.com/library/windows/apps/BR241587).
@@ -21,20 +21,30 @@ packaged applications. Its technical design was heavily inspired by
 
 Think of APPDATA.EXE to ApplicationData as REG.EXE is to the Registry.
 
-## INSTALLATION
+## Installation
 
-APPDATA.EXE can be installed via [APPDATA.EXE's page on Microsoft Store](https://apps.microsoft.com/detail/9NKMF1FM25CL?hl=en-us&gl=US&ocid=pdpshare) (alternative [browser page](https://apps.microsoft.com/detail/9nkmf1fm25cl?hl=en-US&gl=US)).
+There are multiple ways to install APPDATA.EXE - choose whichever you prefer!
+
+### Install via Microsoft Store (recommended)
+
+[![Download from the Microsoft Store](docs/images/DownloadFromTheMicrosoftStore.png)](https://apps.microsoft.com/detail/9NKMF1FM25CL?hl=en-us&gl=US&ocid=pdpshare)
+
+### Install via WinGet
+
+`winget install --exact --id 9NKMF1FM25CL --source msstore`
+
+### Requirements
 
 APPDATA.EXE requires Windows 10.0.17763.0 (aka RS5) or newer.
 
-## SUPPORT
+## Support
 
 The development and support home for APPDATA.EXE is https://github.com/DrusTheAxe/AppData.
 
-## LICENSE
+## License
 
 See [LICENSE](https://github.com/DrusTheAxe/AppData/blob/main/LICENSE) for details.
 
-## PRIVACY
+## Privacy
 
 See [PRIVACY.md](https://github.com/DrusTheAxe/AppData/blob/main/PRIVACY.md) for details.

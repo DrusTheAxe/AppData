@@ -1,5 +1,5 @@
 <h1 id="appdata-exe-readme">APPDATA.EXE README</h1>
-<h2 id="overview">OVERVIEW</h2>
+<h2 id="overview">Overview</h2>
 
 <p>APPDATA.EXE is a Windows command-line utility for accessing and managing
 <a href="http://msdn.microsoft.com/library/windows/apps/BR241587">ApplicationData</a>.</p>
@@ -12,7 +12,7 @@ applications, and anyone curious about what packaged apps store on their behalf.
 
 <p>Run with no parameters for help.</p>
 
-<h3 id="why">WHY?</h3>
+<h3 id="why">Why?</h3>
 
 <p>The tool was born out of practical necessity during many late nights and weekends troubleshooting
 packaged applications. Its technical design was heavily inspired by
@@ -21,11 +21,34 @@ packaged applications. Its technical design was heavily inspired by
 <p>Think of APPDATA.EXE to ApplicationData as REG.EXE is to the Registry.</p>
 
 <h2 id="installation">INSTALLATION</h2>
-<p>APPDATA.EXE can be installed via <a href="https://apps.microsoft.com/detail/9NKMF1FM25CL?hl=en-us&gl=US&ocid=pdpshare">APPDATA.EXE's page on Microsoft Store</a> (alternative <a href="https://apps.microsoft.com/detail/9nkmf1fm25cl?hl=en-US&gl=US">browser page</a>).
+<p>There are multiple ways to install APPDATA.EXE - choose whichever you prefer!</p>
+
+<h3>Install via Microsoft Store (recommended)</h3>
+<p><a href="https://apps.microsoft.com/detail/9NKMF1FM25CL?hl=en-us&gl=US&ocid=pdpshare"><img src="docs/images/DownloadFromTheMicrosoftStore.png" alt="Download from the Microsoft Store"></a></p>
+
+<h3>Install via WinGet</h3>
+<style>
+.codeblock {
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    padding: 16px;
+    font-family: Consolas, Monaco, monospace;
+    overflow-x: auto;
+}
+</style>
+<div class="codeblock">
+<code>winget install --exact --id 9NKMF1FM25CL --source msstore</code>
+</div>
+
+<h3 id="installation">REQUIREMENTS</h3>
 <p>APPDATA.EXE requires Windows 10.0.17763.0 (aka RS5) or newer.</p>
-<h2 id="support">SUPPORT</h2>
+
+<h2 id="support">Support</h2>
 <p>The development and support home for APPDATA.EXE is <a href="https://github.com/DrusTheAxe/AppData">https://github.com/DrusTheAxe/AppData</a>.</p>
-<h2 id="license">LICENSE</h2>
+
+<h2 id="license">License</h2>
 <p>See <a href="https://github.com/DrusTheAxe/AppData/blob/main/LICENSE">LICENSE</a> for details.</p>
-<h2 id="privacy">PRIVACY</h2>
+
+<h2 id="privacy">Privacy</h2>
 See <a href="https://github.com/DrusTheAxe/AppData/blob/main/PRIVACY.md">PRIVACY.md</a> for details.</p>

@@ -17,9 +17,11 @@ SET TARGET=%TARGETDIR%\AppData-%VERSION%-%ARCH%.msix
 SET SCRATCH="%TEMP%\appxdata-temp-msix"
 IF EXIST %SCRATCH% RD /s/q %SCRATCH%
 MD %SCRATCH% 2>&1 >NUL
+MD %SCRATCH%\docs\images 2>&1 >NUL
 COPY %BINEXE% %SCRATCH%\*
 COPY %ROOTDIR%\build\distribution\appxmanifest.xml %SCRATCH%\*
 pwsh.exe -NoProfile -Command "$p='%SCRATCH%\appxmanifest.xml'; $s=[IO.File]::ReadAllText($p); [IO.File]::WriteAllText($p,$s.Replace('$version$','%VERSION%').Replace('$architecture$','%ARCH%'))"
+COPY %ROOTDIR%\docs\images\DownloadFromTheMicrosoftStore.png %SCRATCH%\docs\images\*
 COPY %ROOTDIR%\LICENSE %SCRATCH%\*
 COPY %ROOTDIR%\README.md %SCRATCH%\*
 COPY %ROOTDIR%\README.html %SCRATCH%\*

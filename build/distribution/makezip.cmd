@@ -18,9 +18,11 @@ SET TARGETBASE=%TARGETDIR%\AppData-%VERSION%
 SET SCRATCH="%TEMP%\appxdata-temp-zip"
 IF EXIST %SCRATCH% RD /s/q %SCRATCH%
 MD %SCRATCH% 2>&1 >NUL
+MD %SCRATCH%\docs\images 2>&1 >NUL
 MD %SCRATCH%\x86 2>&1 >NUL
 MD %SCRATCH%\x64 2>&1 >NUL
 MD %SCRATCH%\arm64 2>&1 >NUL
+COPY %ROOTDIR%\docs\images\DownloadFromTheMicrosoftStore.png %SCRATCH%\docs\images\*
 COPY %BINEXE_X86%           %SCRATCH%\x86\*
 COPY %BINEXE_X64%           %SCRATCH%\x64\*
 COPY %BINEXE_ARM64%         %SCRATCH%\arm64\*
