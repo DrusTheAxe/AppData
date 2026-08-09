@@ -13,6 +13,8 @@ applications, and anyone curious about what packaged apps store on their behalf.
 
 Run with no parameters for help.
 
+### Why?
+
 The tool was born out of practical necessity during many late nights and weekends troubleshooting
 packaged applications. Its technical design was heavily inspired by
 [REG.EXE](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/reg.mspx?mfr=true).
@@ -20,6 +22,8 @@ packaged applications. Its technical design was heavily inspired by
 Think of APPDATA.EXE to ApplicationData as REG.EXE is to the Registry.
 
 ## INSTALLATION
+
+APPDATA.EXE can be installed via [APPDATA.EXE's page on Microsoft Store](https://apps.microsoft.com/detail/9NKMF1FM25CL?hl=en-us&gl=US&ocid=pdpshare) (alternative [browser page](https://apps.microsoft.com/detail/9nkmf1fm25cl?hl=en-US&gl=US)).
 
 APPDATA.EXE requires Windows 10.0.17763.0 (aka RS5) or newer.
 

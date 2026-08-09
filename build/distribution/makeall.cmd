@@ -22,6 +22,8 @@ IF ERRORLEVEL 1 GoTo TheEnd
 CALL .\makezip.cmd %VERSION%
 IF ERRORLEVEL 1 GoTo TheEnd
 
+CALL .\makemsix.cmd %VERSION% x86
+IF ERRORLEVEL 1 GoTo TheEnd
 CALL .\makemsix.cmd %VERSION% x64
 IF ERRORLEVEL 1 GoTo TheEnd
 CALL .\makemsix.cmd %VERSION% arm64

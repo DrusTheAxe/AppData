@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <Nullable>enable</Nullable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Platforms>AnyCPU;x64;arm64</Platforms>
+    <Platforms>AnyCPU;x86;x64;arm64</Platforms>
 
     <!-- AOT and SingleFile are mutually exclusive - pick one -->
     <!-- PublishAot=true: native binary, no JIT, no bundler, smaller but no WinRT projection support -->
@@ -86,11 +86,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(PlatformTarget)'=='AnyCPU'">
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='x86'">
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='x64'">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='arm64'">
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="App.config" />
     <Content Include="appdata.ico" />
   </ItemGroup>
   <ItemGroup>

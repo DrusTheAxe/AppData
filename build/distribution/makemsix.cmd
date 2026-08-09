@@ -37,6 +37,8 @@ GoTo TheEnd
 
 :Help
 ECHO Usage: MAKEMSIX version architecture
+ECHO        version = version (1.2.3)
+ECHO   architecture = x86 or x64 OR arm64
 
 :TheEnd
 ENDLOCAL
